@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promise of Liberty — Freedom & Rights Across Time</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c12;--bg2:#0e1520;--bg3:#141e2c;--panel:#192338;
+  --border:#1e2d42;--border2:#2a3f5a;
+  --liberty:#4a9fd4;--liberty2:#2d7aad;--liberty3:#7ec8f0;
+  --parchment:#e8d5a0;--parchment2:#c9b67a;--parchment3:#f5e8c0;
+  --civic:#b8860b;--civic2:#d4a017;--civic3:#f0c040;
+  --red:#c03030;--red2:#e04040;
+  --green:#2a7a3a;--green2:#38a050;
+  --text:#e8dcc8;--text2:#8a9bb0;--text3:#4a5870;--cream:#f0e6d0;
+  --gold:#d4a017;--gold2:#b8860b;--gold3:#f0c040;
+  --bebas:'Bebas Neue',sans-serif;
+  --playfair:'Playfair Display',serif;
+  --crimson:'Crimson Text',serif;
+  --dm:'DM Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--crimson);min-height:100vh;overflow-x:hidden;
+  background-image:
+    radial-gradient(ellipse at 15% 0%,rgba(74,159,212,0.08) 0%,transparent 50%),
+    radial-gradient(ellipse at 85% 100%,rgba(180,134,11,0.07) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 50%,rgba(8,12,18,0) 0%,rgba(8,12,18,0.4) 100%);}
+body::before{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9998;opacity:0.8;}
+body::after{content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.008) 3px,rgba(0,0,0,0.008) 4px);
+  pointer-events:none;z-index:9999;}
+#root{max-width:620px;margin:0 auto;padding:16px;padding-bottom:120px;min-height:100vh;position:relative;z-index:1;}
+.screen{display:none;}.screen.active{display:block;animation:fadeIn 0.4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pop{0%{transform:scale(0.5);opacity:0;}70%{transform:scale(1.08);}100%{transform:scale(1);opacity:1;}}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-70px);}}
+@keyframes glowLiberty{0%,100%{box-shadow:0 0 15px rgba(74,159,212,0.3);}50%{box-shadow:0 0 40px rgba(74,159,212,0.65);}}
+@keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
+.btn{font-family:var(--bebas);font-size:15px;letter-spacing:2px;background:transparent;border:1.5px solid var(--liberty);color:var(--liberty);padding:12px 28px;cursor:pointer;transition:all 0.2s;display:inline-block;position:relative;overflow:hidden;text-transform:uppercase;}
+.btn::before{content:'';position:absolute;inset:0;background:var(--liberty);transform:scaleX(0);transform-origin:left;transition:transform 0.2s;z-index:0;}
+.btn:hover{color:var(--bg);box-shadow:0 0 25px rgba(74,159,212,0.35);}.btn:hover::before{transform:scaleX(1);}
+.btn span{position:relative;z-index:1;}.btn:active{transform:scale(0.97);}
+.btn.full{display:block;width:100%;text-align:center;margin:6px 0;}
+.btn.gold{border-color:var(--gold);color:var(--gold);}.btn.gold::before{background:var(--gold);}.btn.gold:hover{color:var(--bg);}
+.btn.green{border-color:var(--green2);color:var(--green2);}.btn.green::before{background:var(--green2);}.btn.green:hover{color:#fff;}
+.btn.red{border-color:var(--red2);color:var(--red2);}.btn.red::before{background:var(--red2);}.btn.red:hover{color:#fff;}
+.btn.sm{font-size:11px;padding:8px 18px;}.btn:disabled{opacity:0.25;cursor:not-allowed;pointer-events:none;}
+#game-header{background:linear-gradient(180deg,rgba(8,12,18,0.98),rgba(14,21,32,0.96));border-bottom:1px solid var(--border2);padding:10px 14px;display:none;position:sticky;top:0;z-index:200;margin:-16px -16px 16px -16px;backdrop-filter:blur(12px);}
+.hud-inner{display:flex;align-items:center;gap:12px;}
+.hud-avatar{width:44px;height:44px;flex-shrink:0;cursor:pointer;overflow:visible;}
+.hud-info{flex:1;min-width:0;}
+.hud-name{font-family:var(--playfair);font-size:12px;color:var(--liberty3);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-style:italic;}
+.hud-rank{font-family:var(--dm);font-size:10px;color:var(--text2);}
+.momentum-bar-wrap{height:3px;background:rgba(255,255,255,0.06);margin-top:4px;border-radius:2px;overflow:hidden;}
+.momentum-bar-fill{height:100%;background:linear-gradient(90deg,var(--liberty2),var(--liberty3));transition:width 0.6s;border-radius:2px;}
+.hud-stats{display:flex;gap:10px;flex-shrink:0;}
+.hud-stat{font-family:var(--dm);font-size:8px;color:var(--text3);text-align:center;}
+.hud-stat span{display:block;color:var(--liberty);font-size:13px;margin-top:1px;font-weight:600;}
+.notif{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--liberty2);padding:10px 20px;font-family:var(--dm);font-size:11px;color:var(--liberty);z-index:1000;animation:pop 0.3s,floatUp 2.5s 0.8s forwards;white-space:nowrap;max-width:90vw;text-align:center;}
+.notif.green{border-color:var(--green2);color:var(--green2);}.notif.red{border-color:var(--red2);color:var(--red2);}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);z-index:400;overflow-y:auto;padding:20px 16px 80px;}
+.overlay.show{display:block;animation:fadeIn 0.2s;}
+.overlay-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:sticky;top:0;background:rgba(8,12,18,0.97);padding:10px 0;border-bottom:1px solid var(--border2);z-index:10;}
+.overlay-title{font-family:var(--bebas);font-size:22px;color:var(--liberty);letter-spacing:2px;}
+.overlay-close{font-family:var(--dm);font-size:10px;background:var(--bg3);border:1px solid var(--border2);color:var(--text2);padding:7px 14px;cursor:pointer;transition:all 0.2s;}
+.overlay-close:hover{border-color:var(--liberty);color:var(--liberty);}
+.std-tag{display:inline-block;font-family:var(--dm);font-size:8px;color:var(--text3);border:1px solid var(--border2);padding:2px 6px;margin:2px;border-radius:2px;}
+.section-head{font-family:var(--bebas);font-size:18px;letter-spacing:2px;color:var(--liberty);border-bottom:1px solid var(--border2);padding-bottom:6px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.section-head::before{content:'';display:block;width:3px;height:18px;background:var(--liberty);}
+.deco-divider{display:flex;align-items:center;gap:10px;margin:16px 0;}
+.deco-divider::before,.deco-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);}
+.deco-divider-icon{font-size:14px;color:var(--text3);}
+#title-screen{text-align:center;padding:2rem 1rem;}
+.game-logo{font-family:var(--bebas);font-size:clamp(36px,9vw,58px);color:var(--parchment);letter-spacing:5px;text-shadow:0 0 40px rgba(232,213,160,0.3),3px 3px 0 rgba(0,0,0,0.6);line-height:1;margin-bottom:4px;}
+.game-subtitle{font-family:var(--playfair);font-size:14px;color:var(--liberty3);font-style:italic;margin-bottom:6px;letter-spacing:1px;}
+.game-unit-badge{display:inline-block;background:rgba(74,159,212,0.08);border:1px solid var(--liberty2);color:var(--liberty);font-family:var(--dm);font-size:9px;padding:4px 12px;letter-spacing:3px;margin-bottom:1.5rem;text-transform:uppercase;}
+#hub-screen{padding:1rem 0;}
+.hub-banner{background:var(--bg2);border:1px solid var(--border2);padding:16px;margin-bottom:16px;display:flex;align-items:center;gap:14px;}
+.hub-avatar{width:60px;height:60px;flex-shrink:0;}
+.hub-player-name{font-family:var(--playfair);font-size:16px;color:var(--cream);font-style:italic;margin-bottom:2px;}
+.hub-player-rank{font-family:var(--dm);font-size:11px;color:var(--liberty3);margin-bottom:6px;}
+.hub-momentum-wrap{background:rgba(255,255,255,0.05);height:4px;border-radius:2px;}
+.hub-momentum-fill{height:100%;background:linear-gradient(90deg,var(--liberty2),var(--liberty3));border-radius:2px;transition:width 0.6s;}
+.chapter-card{background:var(--bg2);border:1px solid var(--border);margin-bottom:10px;overflow:hidden;transition:border-color 0.2s;cursor:pointer;}
+.chapter-card.available:hover{border-color:var(--liberty2);}
+.chapter-card.locked{opacity:0.45;cursor:not-allowed;pointer-events:none;}
+.chapter-card.completed{border-color:var(--green);}
+.chapter-card-header{display:flex;align-items:center;gap:12px;padding:14px 16px;}
+.chapter-icon{font-size:28px;flex-shrink:0;}
+.chapter-info{flex:1;}
+.chapter-number{font-family:var(--dm);font-size:9px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;}
+.chapter-name{font-family:var(--playfair);font-size:15px;color:var(--cream);margin:2px 0;}
+.chapter-era{font-family:var(--crimson);font-size:13px;color:var(--text2);font-style:italic;}
+.chapter-status{font-family:var(--dm);font-size:8px;padding:4px 10px;border:1px solid;}
+.chapter-status.available{color:var(--liberty);border-color:var(--liberty2);background:rgba(74,159,212,0.08);}
+.chapter-status.locked{color:var(--text3);border-color:var(--border);}
+.chapter-status.completed{color:var(--green2);border-color:var(--green);background:rgba(56,160,80,0.08);}
+.chapter-progress-bar{height:2px;background:rgba(255,255,255,0.04);}
+.chapter-progress-fill{height:100%;background:var(--liberty2);transition:width 0.5s;}
+.badges-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.badge-pill{background:var(--bg2);border:1px solid var(--border);padding:6px 10px;display:flex;align-items:center;gap:6px;font-family:var(--dm);font-size:9px;color:var(--text2);}
+.badge-pill.earned{border-color:var(--liberty2);color:var(--liberty);background:rgba(74,159,212,0.06);}
+.badge-icon{font-size:16px;filter:grayscale(1);}.badge-pill.earned .badge-icon{filter:none;}
+#chapter-intro{padding:1rem 0;}
+#story-screen{padding:1rem 0;}
+.story-scene{position:relative;width:100%;overflow:hidden;background:var(--bg2);border:1px solid var(--border2);margin-bottom:16px;}
+.story-text-panel{background:var(--bg2);border:1px solid var(--border);padding:18px;margin-bottom:14px;position:relative;}
+.story-text-panel::before{content:'\201C';font-family:var(--playfair);font-size:80px;color:rgba(74,159,212,0.06);position:absolute;top:-10px;left:10px;line-height:1;}
+.story-narrative{font-family:var(--crimson);font-size:17px;line-height:1.75;color:var(--text);}
+.decision-header{font-family:var(--bebas);font-size:13px;letter-spacing:2px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;}
+.choice-btn{display:block;width:100%;background:var(--bg2);border:1px solid var(--border2);color:var(--text);padding:14px 16px;cursor:pointer;text-align:left;transition:all 0.2s;margin-bottom:8px;position:relative;overflow:hidden;}
+.choice-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--liberty);transform:scaleY(0);transition:transform 0.2s;}
+.choice-btn:hover{border-color:var(--liberty2);background:rgba(74,159,212,0.04);}.choice-btn:hover::before{transform:scaleY(1);}
+.choice-btn.correct{border-color:var(--green2);background:rgba(56,160,80,0.08);animation:pop 0.3s;}.choice-btn.correct::before{background:var(--green2);transform:scaleY(1);}
+.choice-btn.incorrect{border-color:var(--red2);background:rgba(192,48,48,0.06);opacity:0.6;}.choice-btn.incorrect::before{background:var(--red2);transform:scaleY(1);}
+.feedback-panel{display:none;background:var(--bg2);border-left:3px solid var(--liberty);padding:16px 16px 16px 20px;margin-bottom:14px;animation:slideUp 0.3s;}
+.feedback-panel.show{display:block;}.feedback-panel.correct{border-color:var(--green2);}.feedback-panel.incorrect{border-color:var(--red2);}
+.feedback-verdict{font-family:var(--bebas);font-size:14px;letter-spacing:2px;margin-bottom:8px;}
+.feedback-verdict.correct{color:var(--green2);}.feedback-verdict.incorrect{color:var(--red2);}
+.feedback-text{font-family:var(--crimson);font-size:16px;line-height:1.6;color:var(--text);margin-bottom:8px;}
+.feedback-standard{font-family:var(--dm);font-size:9px;color:var(--text3);border-top:1px solid var(--border);padding-top:8px;margin-top:8px;}
+.chapter-complete-overlay{display:none;position:fixed;inset:0;background:#080c12;z-index:500;overflow-y:auto;text-align:center;}
+.chapter-complete-overlay.show{display:block;animation:fadeIn 0.4s;}
+.chapter-complete-inner{max-width:480px;margin:0 auto;padding:20px 16px 100px;}
+.complete-badge-display{width:100px;height:100px;margin:0 auto 16px;border:2px solid var(--liberty);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:48px;animation:glowLiberty 2s infinite;background:var(--bg2);}
+.card-earned{background:var(--bg2);border:1px solid var(--liberty2);padding:16px;margin:16px auto;max-width:280px;text-align:center;position:relative;}
+.card-earned::before{content:'';position:absolute;inset:4px;border:1px solid rgba(74,159,212,0.15);pointer-events:none;}
+.continuity-block{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--parchment2);padding:14px 16px;margin:16px 0;text-align:left;}
+.continuity-row{margin-bottom:10px;}
+.continuity-label{font-family:var(--bebas);font-size:10px;letter-spacing:2px;color:var(--parchment2);margin-bottom:3px;}
+.continuity-text{font-family:var(--crimson);font-size:14px;color:var(--text2);line-height:1.6;font-style:italic;}
+.lb-table{width:100%;border-collapse:collapse;}
+.lb-table th{font-family:var(--bebas);font-size:10px;color:var(--text3);letter-spacing:2px;padding:8px 6px;border-bottom:1px solid var(--border2);text-align:left;}
+.lb-table td{padding:10px 6px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.lb-table tr.lb-you td{background:rgba(74,159,212,0.05);}
+.lb-name{font-family:var(--playfair);font-size:13px;color:var(--cream);font-style:italic;}
+.lb-score{font-family:var(--bebas);font-size:16px;color:var(--liberty);letter-spacing:1px;}
+.lb-tab{font-family:var(--dm);font-size:9px;padding:6px 12px;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text3);transition:all .15s;margin-right:5px;margin-bottom:5px;}
+.lb-tab.active{border-color:var(--liberty);color:var(--liberty);background:rgba(74,159,212,.08);}
+.profile-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.profile-stat{background:var(--bg2);border:1px solid var(--border);padding:12px;text-align:center;}
+.profile-stat-val{font-family:var(--bebas);font-size:24px;color:var(--liberty);}
+.profile-stat-lbl{font-family:var(--dm);font-size:9px;color:var(--text3);letter-spacing:1px;margin-top:2px;}
+.card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px;}
+.hist-card{background:var(--bg2);border:1px solid var(--border2);padding:14px;position:relative;overflow:hidden;}
+.hist-card.locked-card{opacity:0.35;}
+.hist-card::before{content:'';position:absolute;inset:4px;border:1px solid rgba(74,159,212,0.08);pointer-events:none;}
+.hist-card-icon{font-size:36px;text-align:center;margin-bottom:8px;}
+.hist-card-name{font-family:var(--bebas);font-size:13px;color:var(--parchment);letter-spacing:1px;margin-bottom:2px;}
+.hist-card-role{font-family:var(--dm);font-size:9px;color:var(--liberty3);margin-bottom:6px;}
+.hist-card-desc{font-family:var(--crimson);font-size:13px;color:var(--text2);font-style:italic;line-height:1.5;}
+.hist-card-unlock{font-family:var(--dm);font-size:8px;color:var(--text3);margin-top:6px;}
+#bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(8,12,18,0.97);border-top:1px solid var(--border2);display:flex;z-index:300;backdrop-filter:blur(12px);}
+.bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 4px;background:none;border:none;color:var(--text3);cursor:pointer;font-family:var(--dm);font-size:8px;letter-spacing:0.5px;transition:color 0.15s;}
+.bn-btn:hover,.bn-btn.active{color:var(--liberty);}
+.bn-icon{font-size:18px;display:block;}
+.eq-banner{background:linear-gradient(135deg,rgba(74,159,212,0.06),rgba(74,159,212,0.02));border:1px solid var(--border2);border-left:3px solid var(--liberty);padding:12px 16px;margin-bottom:16px;font-family:var(--crimson);font-size:15px;color:var(--text2);font-style:italic;line-height:1.6;}
+.eq-banner strong{color:var(--liberty3);font-style:normal;}
+.era-badge{display:inline-block;font-family:var(--bebas);font-size:9px;letter-spacing:2px;padding:3px 10px;border:1px solid;margin-bottom:8px;}
+.eoc-q{background:var(--bg2);border:1px solid var(--border2);padding:18px;margin-bottom:14px;}
+.eoc-q-text{font-family:var(--playfair);font-size:15px;color:var(--cream);line-height:1.6;margin-bottom:16px;}
+#story-screen,#chapter-intro,#hub-screen,.chapter-complete-overlay,.feedback-panel,
+.story-text-panel,.story-scene,.choice-btn,#story-decision-header,#story-beat-num,
+#story-text-container,#story-choices,#feedback-text,#feedback-verdict{
+  -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+}
+input,textarea{-webkit-user-select:text!important;-moz-user-select:text!important;user-select:text!important;}
+</style>
+</head>
+<body>
+<div id="root">
+
+<!-- GAME HEADER HUD -->
+<div id="game-header">
+  <div class="hud-inner">
+    <div class="hud-avatar" id="hud-avatar-svg" onclick="openProfile()"></div>
+    <div class="hud-info">
+      <div class="hud-name" id="hud-name">—</div>
+      <div class="hud-rank" id="hud-rank">Curious Citizen</div>
+      <div class="momentum-bar-wrap"><div class="momentum-bar-fill" id="hud-momentum-fill" style="width:0%"></div></div>
+    </div>
+    <div class="hud-stats">
+      <div class="hud-stat">SCORE<span id="hud-score">0</span></div>
+      <div class="hud-stat">CARDS<span id="hud-cards">0</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TITLE SCREEN -->
+<div class="screen active" id="title-screen">
+  <div style="position:relative;width:100%;height:220px;overflow:hidden;border:1px solid var(--border2);margin-bottom:20px;background:var(--bg2)">
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:220px">
+      <defs>
+        <radialGradient id="skyG" cx="50%" cy="0%" r="80%"><stop offset="0%" stop-color="#0a1828"/><stop offset="100%" stop-color="#050810"/></radialGradient>
+        <radialGradient id="torchG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f0c040" stop-opacity="0.5"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      </defs>
+      <rect width="560" height="220" fill="url(#skyG)"/>
+      <!-- Stars -->
+      <circle cx="60" cy="25" r="1.2" fill="#e8dcc8" opacity="0.6"/>
+      <circle cx="120" cy="15" r="0.8" fill="#e8dcc8" opacity="0.5"/>
+      <circle cx="200" cy="30" r="1" fill="#e8dcc8" opacity="0.7"/>
+      <circle cx="320" cy="18" r="1.2" fill="#e8dcc8" opacity="0.5"/>
+      <circle cx="420" cy="28" r="0.9" fill="#e8dcc8" opacity="0.6"/>
+      <circle cx="500" cy="12" r="1.1" fill="#e8dcc8" opacity="0.4"/>
+      <circle cx="80" cy="50" r="0.7" fill="#e8dcc8" opacity="0.4"/>
+      <circle cx="460" cy="45" r="0.8" fill="#e8dcc8" opacity="0.5"/>
+      <!-- Water horizon -->
+      <rect x="0" y="175" width="560" height="45" fill="#06101a"/>
+      <path d="M0,175 Q140,168 280,175 Q420,182 560,175" fill="none" stroke="#1a3050" stroke-width="1" opacity="0.6"/>
+      <!-- Constitution scroll -->
+      <rect x="80" y="60" width="120" height="90" rx="4" fill="#1a160a" stroke="#3a2e10" stroke-width="1"/>
+      <rect x="84" y="64" width="112" height="82" rx="2" fill="#1e1a0c"/>
+      <text x="140" y="84" font-family="Georgia,serif" font-size="7" fill="#c9b67a" text-anchor="middle" font-style="italic">We the People</text>
+      <line x1="90" y1="90" x2="190" y2="90" stroke="#3a2e10" stroke-width="0.8"/>
+      <line x1="90" y1="98" x2="185" y2="98" stroke="#3a2e10" stroke-width="0.8"/>
+      <line x1="90" y1="106" x2="188" y2="106" stroke="#3a2e10" stroke-width="0.8"/>
+      <line x1="90" y1="114" x2="182" y2="114" stroke="#3a2e10" stroke-width="0.8"/>
+      <line x1="90" y1="122" x2="186" y2="122" stroke="#3a2e10" stroke-width="0.8"/>
+      <line x1="90" y1="130" x2="180" y2="130" stroke="#3a2e10" stroke-width="0.8"/>
+      <!-- Statue of Liberty silhouette -->
+      <rect x="280" y="80" width="8" height="85" fill="#0e1a28"/>
+      <ellipse cx="284" cy="75" rx="12" ry="14" fill="#0e1a28"/>
+      <polygon points="284,52 278,68 290,68" fill="#0e1a28"/>
+      <rect x="290" y="90" width="3" height="25" fill="#0e1a28" transform="rotate(30,291,90)"/>
+      <ellipse cx="284" cy="75" rx="7" ry="8" fill="#0d1820"/>
+      <!-- Torch glow -->
+      <ellipse cx="296" cy="67" rx="18" ry="14" fill="url(#torchG)"/>
+      <circle cx="296" cy="67" r="4" fill="#f0c040" opacity="0.8"/>
+      <circle cx="296" cy="65" r="2.5" fill="#ffffff" opacity="0.6"/>
+      <!-- People silhouettes across eras -->
+      <ellipse cx="380" cy="162" rx="9" ry="10" fill="#1a0c04"/>
+      <rect x="372" y="171" width="16" height="18" fill="#2a1a0a"/>
+      <ellipse cx="410" cy="160" rx="9" ry="10" fill="#3d1a0a"/>
+      <rect x="402" y="169" width="16" height="18" fill="#5a1a0a"/>
+      <ellipse cx="440" cy="162" rx="9" ry="10" fill="#1a1a1a"/>
+      <rect x="432" y="171" width="16" height="18" fill="#2a2a3a"/>
+      <ellipse cx="470" cy="160" rx="9" ry="10" fill="#c09060"/>
+      <rect x="462" y="169" width="16" height="18" fill="#1a3050"/>
+      <ellipse cx="500" cy="162" rx="8" ry="9" fill="#6b3a1a"/>
+      <rect x="493" y="170" width="15" height="17" fill="#8b2020"/>
+      <!-- Text overlays -->
+      <text x="280" y="215" font-family="Georgia,serif" font-size="9" fill="#4a6a8a" text-anchor="middle" opacity="0.8">United States of America — 1865 to Present</text>
+    </svg>
+  </div>
+  <div class="game-unit-badge">Freedom &amp; Rights Theme Campaign</div>
+  <div class="game-logo">Promise<br>of Liberty</div>
+  <div class="game-subtitle">Freedom &amp; Rights Across Time</div>
+  <div class="deco-divider"><span class="deco-divider-icon">🗽</span></div>
+  <div class="eq-banner" style="text-align:left;margin-bottom:20px"><strong>Essential Question:</strong> How has the meaning of freedom changed in U.S. history — and who has been included or excluded from it?</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px">
+    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px 8px;text-align:center"><div style="font-size:24px;margin-bottom:4px">📜</div><div style="font-family:var(--bebas);font-size:11px;color:var(--liberty);letter-spacing:1px">5 Chapters</div></div>
+    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px 8px;text-align:center"><div style="font-size:24px;margin-bottom:4px">⚖️</div><div style="font-family:var(--bebas);font-size:11px;color:var(--liberty);letter-spacing:1px">Cross-Era</div></div>
+    <div style="background:var(--bg2);border:1px solid var(--border);padding:12px 8px;text-align:center"><div style="font-size:24px;margin-bottom:4px">🃏</div><div style="font-family:var(--bebas);font-size:11px;color:var(--liberty);letter-spacing:1px">Earn Cards</div></div>
+  </div>
+  <button class="btn full" style="border-color:var(--liberty);color:var(--liberty);font-size:16px;padding:16px" onclick="showLoginGate()"><span>Begin the Journey 🗽</span></button>
+  <button class="btn full" style="margin-top:6px;border-color:var(--border2);color:var(--text2);font-size:11px" onclick="showTeacherDashboard()"><span>📊 Teacher View</span></button>
+  <div style="font-family:var(--dm);font-size:9px;color:var(--text3);margin-top:20px;letter-spacing:1px">FREEDOM &amp; RIGHTS THEME · SS.912.A.3.1 · SS.912.A.5.4 · SS.912.A.7.5 · SS.912.A.7.8</div>
+  <div style="font-family:var(--dm);font-size:9px;color:var(--text3);margin-top:6px;letter-spacing:1px">CREATED BY JOSHUA OLSON</div>
+</div>
+
+<!-- HUB -->
+<div class="screen" id="hub-screen">
+  <div id="hub-banner-container"></div>
+  <div id="shell-return-btn" style="display:none;margin-bottom:12px">
+    <button class="btn full" onclick="returnToShell()" style="border-color:var(--liberty2);color:var(--liberty2)"><span>← Return to American Chronicles Hub</span></button>
+  </div>
+  <div class="section-head">Freedom &amp; Rights Across Time</div>
+  <div class="eq-banner"><strong>Essential Question:</strong> How has the meaning of freedom changed in U.S. history, and who has been included or excluded from it?</div>
+  <div id="hub-chapters"></div>
+  <div class="deco-divider"><span class="deco-divider-icon">⚖️</span></div>
+  <div class="section-head" style="font-size:14px">Badges</div>
+  <div class="badges-row" id="hub-badges"></div>
+</div>
+
+<!-- CHAPTER INTRO -->
+<div class="screen" id="chapter-intro">
+  <div id="chapter-intro-content"></div>
+  <button class="btn full" id="chapter-start-btn" onclick="startChapterPlay()"><span>Enter This Moment ⚖️</span></button>
+</div>
+
+<!-- STORY -->
+<div class="screen" id="story-screen">
+  <div id="story-progress-bar" style="height:3px;background:rgba(255,255,255,0.04);margin-bottom:16px"><div id="story-progress-fill" style="height:100%;background:var(--liberty2);transition:width 0.4s;width:0%"></div></div>
+  <div id="story-beat-num" style="font-family:var(--dm);font-size:9px;color:var(--text3);letter-spacing:2px;margin-bottom:12px;text-align:right"></div>
+  <div id="story-scene-container"></div>
+  <div id="story-text-container"></div>
+  <div id="story-momentum"></div>
+  <div id="story-decision-header" class="decision-header"></div>
+  <div id="story-choices"></div>
+  <div class="feedback-panel" id="feedback-panel">
+    <div class="feedback-verdict" id="feedback-verdict"></div>
+    <div class="feedback-text" id="feedback-text"></div>
+    <div class="feedback-standard" id="feedback-standard"></div>
+  </div>
+  <button class="btn full" id="story-next-btn" style="display:none" onclick="nextBeat()"><span>Continue ➜</span></button>
+</div>
+
+<!-- EOC SCREEN -->
+<div class="screen" id="eoc-screen">
+  <div id="eoc-content"></div>
+</div>
+
+<!-- CHAPTER COMPLETE -->
+<div class="chapter-complete-overlay" id="chapter-complete-overlay">
+  <div class="chapter-complete-inner">
+    <div style="font-family:var(--bebas);font-size:11px;color:var(--liberty2);letter-spacing:4px;margin-bottom:12px">CHAPTER COMPLETE</div>
+    <div class="complete-badge-display" id="complete-badge-icon"></div>
+    <div style="font-family:var(--playfair);font-size:22px;color:var(--cream);font-style:italic;margin-bottom:6px" id="complete-chapter-name"></div>
+    <div style="font-family:var(--crimson);font-size:15px;color:var(--text2);margin-bottom:16px;line-height:1.6" id="complete-chapter-outcome"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px" id="complete-stats"></div>
+    <div class="continuity-block" id="complete-continuity"></div>
+    <div style="margin-bottom:16px">
+      <div style="font-family:var(--bebas);font-size:12px;color:var(--text3);letter-spacing:2px;margin-bottom:10px">CARD EARNED</div>
+      <div class="card-earned" id="card-earned-display"></div>
+    </div>
+    <div style="font-family:var(--bebas);font-size:12px;color:var(--text3);letter-spacing:2px;margin-bottom:10px">STANDARDS COVERED</div>
+    <div id="complete-standards" style="margin-bottom:20px"></div>
+    <button class="btn full" onclick="closeChapterComplete()"><span>Return to Hub</span></button>
+  </div>
+</div>
+
+<!-- UNIT COMPLETE -->
+<div id="completion-overlay" style="display:none;position:fixed;inset:0;background:rgba(8,12,18,0.97);z-index:600;overflow-y:auto;padding:20px 16px 80px">
+  <div style="max-width:480px;margin:0 auto;text-align:center;padding-top:20px">
+    <div style="font-family:var(--bebas);font-size:11px;color:var(--liberty2);letter-spacing:4px;margin-bottom:16px">THEME CAMPAIGN COMPLETE</div>
+    <div style="font-size:64px;margin-bottom:16px">🗽</div>
+    <div style="font-family:var(--playfair);font-size:26px;color:var(--cream);font-style:italic;margin-bottom:6px" id="completion-name"></div>
+    <div style="font-family:var(--bebas);font-size:14px;color:var(--liberty3);letter-spacing:2px;margin-bottom:20px" id="completion-rank"></div>
+    <div style="font-family:var(--crimson);font-size:17px;color:var(--text);line-height:1.7;margin-bottom:24px;font-style:italic;border-left:3px solid var(--liberty);padding:12px 16px;text-align:left;background:var(--bg2)">"The arc of the moral universe is long, but it bends toward justice."<br><span style="font-size:13px;color:var(--liberty3);font-style:normal">— Theodore Parker, quoted by Dr. Martin Luther King Jr.</span></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px" id="completion-stats"></div>
+    <div style="background:var(--bg2);border:1px solid var(--liberty2);padding:16px;margin-bottom:20px"><div style="font-family:var(--bebas);font-size:12px;color:var(--text3);letter-spacing:2px;margin-bottom:12px">BADGES EARNED</div><div id="completion-badges" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"></div></div>
+    <div id="completion-eoc-rating" style="margin-bottom:20px"></div>
+    <div style="font-family:var(--crimson);font-size:15px;color:var(--text2);margin-bottom:24px;line-height:1.6" id="completion-message"></div>
+    <button class="btn full" style="margin-top:6px" onclick="document.getElementById('completion-overlay').style.display='none';renderHub();showScreen('hub-screen')"><span>Return to Hub</span></button>
+    <button class="btn full gold" style="margin-top:6px" onclick="printCertificate()"><span>🖨️ Print Certificate</span></button>
+    <button class="btn full" id="completion-shell-btn" style="display:none;margin-top:6px;border-color:var(--liberty2);color:var(--liberty2);" onclick="returnToShell()"><span>🏛️ Return to American Chronicles</span></button>
+  </div>
+</div>
+
+<!-- LEADERBOARD -->
+<div class="overlay" id="leaderboard-overlay">
+  <div class="overlay-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="overlay-title">🏆 Leaderboard</div>
+      <button id="lb-teacher-unlock" onclick="unlockLBDelete()" style="font-family:var(--dm);font-size:8px;background:transparent;border:1px solid var(--border2);color:var(--text3);padding:4px 8px;cursor:pointer" title="Teacher: unlock delete">🔒</button>
+    </div>
+    <button class="overlay-close" onclick="document.getElementById('leaderboard-overlay').classList.remove('show')">✕ Close</button>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+    <button class="lb-tab active" id="lb-tab-all" onclick="setLBPeriod('all')">🌐 Overall</button>
+    <button class="lb-tab" id="lb-tab-class" onclick="setLBPeriod('class')">🏫 My Class</button>
+  </div>
+  <div id="lb-content" style="font-family:var(--dm);font-size:11px;color:var(--text3)">Loading…</div>
+</div>
+
+<!-- PROFILE OVERLAY -->
+<div class="overlay" id="profile-overlay">
+  <div class="overlay-header">
+    <div class="overlay-title">✊ Profile</div>
+    <button class="overlay-close" onclick="document.getElementById('profile-overlay').classList.remove('show')">✕ Close</button>
+  </div>
+  <div id="profile-content"></div>
+</div>
+
+<!-- CARD COLLECTION -->
+<div class="overlay" id="cardcoll-overlay">
+  <div class="overlay-header">
+    <div class="overlay-title">🃏 Card Collection</div>
+    <button class="overlay-close" onclick="document.getElementById('cardcoll-overlay').classList.remove('show')">✕ Close</button>
+  </div>
+  <div id="cardcoll-grid" class="card-grid"></div>
+</div>
+
+<!-- TEACHER DASHBOARD -->
+<div class="overlay" id="teacher-overlay">
+  <div class="overlay-header">
+    <div class="overlay-title">📊 Teacher Dashboard</div>
+    <button class="overlay-close" onclick="document.getElementById('teacher-overlay').classList.remove('show')">✕ Close</button>
+  </div>
+  <div id="teacher-content"></div>
+</div>
+
+<!-- WELCOME GATE -->
+<div id="welcome-gate" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:1100;align-items:center;justify-content:center;">
+  <div style="background:var(--bg2);border:1px solid var(--liberty2);padding:28px 24px;max-width:360px;width:100%;text-align:center">
+    <div style="margin:0 auto 12px;width:64px;height:64px" id="wg-avatar"></div>
+    <div style="font-family:var(--bebas);font-size:11px;color:var(--text3);letter-spacing:3px;margin-bottom:6px">WELCOME BACK</div>
+    <div style="font-family:var(--playfair);font-size:22px;color:var(--cream);font-style:italic;margin-bottom:4px" id="wg-name"></div>
+    <div style="font-family:var(--dm);font-size:10px;color:var(--liberty3);margin-bottom:4px" id="wg-detail"></div>
+    <div style="font-family:var(--dm);font-size:9px;color:var(--text3);margin-bottom:20px" id="wg-progress"></div>
+    <button class="btn full" onclick="welcomeContinue()"><span>Continue as this student</span></button>
+    <button class="btn full" onclick="welcomeNewPlayer()" style="margin-top:8px;border-color:var(--border2);color:var(--text2);font-size:12px"><span>That's not me — switch player</span></button>
+  </div>
+</div>
+
+<!-- LOGIN GATE -->
+<div id="code-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:var(--bg2);border:1px solid var(--liberty2);padding:28px 24px;max-width:360px;width:100%;text-align:center">
+    <div id="login-step-1">
+      <div style="font-family:var(--bebas);font-size:22px;color:var(--liberty);letter-spacing:3px;margin-bottom:6px">SELECT YOUR TEACHER</div>
+      <div style="font-family:var(--crimson);font-size:14px;color:var(--text2);font-style:italic;margin-bottom:20px">Who is your U.S. History teacher?</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+        <div onclick="selectTeacher('olson')" style="padding:14px;cursor:pointer;border:1.5px solid var(--border2);background:var(--bg3);transition:border-color 0.15s" onmouseover="this.style.borderColor='var(--liberty)'" onmouseout="this.style.borderColor='var(--border2)'">
+          <div style="font-family:var(--bebas);font-size:20px;color:var(--liberty)">Mr. Olson</div>
+        </div>
+        <div onclick="selectTeacher('guest')" style="padding:14px;cursor:pointer;border:1.5px solid var(--border2);background:var(--bg3);transition:border-color 0.15s" onmouseover="this.style.borderColor='var(--liberty2)'" onmouseout="this.style.borderColor='var(--border2)'">
+          <div style="font-family:var(--bebas);font-size:16px;color:var(--text2)">Guest / Other</div>
+        </div>
+      </div>
+      <button class="btn full" style="border-color:var(--border2);color:var(--text3);font-size:11px" onclick="document.getElementById('code-gate-overlay').style.display='none'"><span>Cancel</span></button>
+    </div>
+    <div id="login-step-2" style="display:none">
+      <div style="font-family:var(--bebas);font-size:22px;color:var(--liberty);letter-spacing:3px;margin-bottom:6px">SELECT YOUR PERIOD</div>
+      <div style="font-family:var(--crimson);font-size:14px;color:var(--text2);font-style:italic;margin-bottom:20px">Which class period are you in?</div>
+      <div id="period-buttons" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px"></div>
+      <button class="btn full" style="border-color:var(--border2);color:var(--text3);font-size:11px;margin-top:4px" onclick="goToStep(1)"><span>← Back</span></button>
+    </div>
+    <div id="login-step-3" style="display:none">
+      <div style="font-family:var(--bebas);font-size:22px;color:var(--liberty);letter-spacing:3px;margin-bottom:6px">ENTER YOUR NAME</div>
+      <div id="login-step3-label" style="font-family:var(--crimson);font-size:14px;color:var(--text2);font-style:italic;margin-bottom:16px"></div>
+      <input id="class-code-input" type="text" maxlength="30" style="font-family:var(--playfair);font-size:16px;background:var(--bg3);border:1.5px solid var(--border2);color:var(--cream);padding:12px 16px;width:100%;outline:none;text-align:center;margin-bottom:6px" placeholder="Your name" onkeydown="if(event.key==='Enter')submitClassCode()">
+      <div id="code-error" style="font-family:var(--dm);font-size:10px;color:var(--red2);min-height:16px;margin-bottom:10px;text-align:left"></div>
+      <button class="btn full" onclick="submitClassCode()"><span>Begin the Journey 🗽</span></button>
+      <button class="btn full" style="border-color:var(--border2);color:var(--text3);font-size:11px;margin-top:6px" onclick="goToStep(2)"><span>← Back</span></button>
+    </div>
+  </div>
+</div>
+
+</div><!-- #root -->
+
+<!-- BOTTOM NAV -->
+<div id="bottom-nav" style="display:none">
+  <button class="bn-btn active" id="bn-hub" onclick="showScreen('hub-screen');setActiveNav(0)"><span class="bn-icon">🏠</span>Hub</button>
+  <button class="bn-btn" onclick="openLeaderboard()"><span class="bn-icon">🏆</span>Ranks</button>
+  <button class="bn-btn" onclick="openProfile()"><span class="bn-icon">🗽</span>Profile</button>
+  <button class="bn-btn" onclick="openCardCollection()"><span class="bn-icon">🃏</span>Cards</button>
+</div>
+
+<script>
+'use strict';
+
+// ── CONFIG ─────────────────────────────────────────────
+const SAVE_KEY='liberty_theme_v1';
+const SHELL_KEY='ac_shell_state';
+const SHELL_UNIT_ID='theme_freedom_rights';
+const AC_SUPA_URL='https://dnmrwglrcvlbamzhlzlx.supabase.co';
+const AC_SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRubXJ3Z2xyY3ZsYmFtemhsemx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NjA2OTEsImV4cCI6MjA4OTQzNjY5MX0.jEIM-dGgB0cUS0A6w31LJ5AK9QDCS_UqdVnPrb8dlXM';
+const AC_HEADERS={'Content-Type':'application/json','apikey':AC_SUPA_KEY,'Authorization':'Bearer '+AC_SUPA_KEY};
+const TEACHERS={olson:{name:'Mr. Olson',periods:['1','2','3','4','5','6','7'],teacherCode:'OLSON219'}};
+
+var G=null,currentChapterIdx=0,currentBeatIdx=0,answeredCurrent=false;
+var chapterScore=0,chapterCorrect=0,chapterTotal=0,chapterLog=[];
+var _loginTeacher=null,_loginPeriod=null;
+var _lbAllData=[],_lbPeriod='all',_tdStudents=[];
+var _eocQuestions=[],_eocIdx=0,_eocCorrect=0,_eocAnswered=false;
+var _unitCompleteTimer=null;
+
+// ── AVATAR SVGs ────────────────────────────────────────
+function getPortraitSVG(id,size){
+  size=size||60;
+  var avatars={
+    scholar_f:'<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'"><rect width="40" height="40" fill="#0e1520"/><ellipse cx="20" cy="15" rx="8" ry="9" fill="#c8956a"/><rect x="12" y="24" width="16" height="16" fill="#1a2a4a"/><ellipse cx="16" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><ellipse cx="24" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><path d="M16 18 Q20 20 24 18" stroke="#a07040" stroke-width="0.8" fill="none"/><rect x="12" y="6" width="16" height="9" rx="4" fill="#2a1a0a"/><rect x="10" y="10" width="20" height="4" rx="2" fill="#2a1a0a"/><rect x="17" y="24" width="6" height="4" fill="#e8d5a0"/></svg>',
+    activist_m:'<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'"><rect width="40" height="40" fill="#0e1520"/><ellipse cx="20" cy="15" rx="8" ry="9" fill="#3d1a0a"/><rect x="12" y="24" width="16" height="16" fill="#8b2020"/><ellipse cx="16" cy="13" rx="1.2" ry="1.4" fill="#0a0000"/><ellipse cx="24" cy="13" rx="1.2" ry="1.4" fill="#0a0000"/><path d="M16 18 Q20 21 24 18" stroke="#6b3020" stroke-width="0.8" fill="none"/><ellipse cx="20" cy="8" rx="7" ry="5" fill="#2a1005"/><rect x="17" y="24" width="6" height="4" fill="#e8d5a0"/></svg>',
+    organizer_f:'<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'"><rect width="40" height="40" fill="#0e1520"/><ellipse cx="20" cy="15" rx="8" ry="9" fill="#c09060"/><rect x="12" y="24" width="16" height="16" fill="#2a3a5a"/><ellipse cx="16" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><ellipse cx="24" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><path d="M16 18 Q20 20 24 18" stroke="#907040" stroke-width="0.8" fill="none"/><path d="M14 9 Q20 5 26 9 Q28 13 26 16 Q22 12 18 16 Q16 13 14 9" fill="#6a4020"/><rect x="17" y="24" width="6" height="4" fill="#e8d5a0"/></svg>',
+    lawyer_m:'<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'"><rect width="40" height="40" fill="#0e1520"/><ellipse cx="20" cy="15" rx="8" ry="9" fill="#d4a870"/><rect x="12" y="24" width="16" height="16" fill="#1a1a2a"/><ellipse cx="16" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><ellipse cx="24" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><path d="M16 18 Q20 20 24 18" stroke="#a07040" stroke-width="0.8" fill="none"/><rect x="13" y="9" width="14" height="8" rx="1" fill="#2a1a0a"/><rect x="12" y="12" width="3" height="10" rx="1" fill="#1a1010"/><rect x="25" y="12" width="3" height="10" rx="1" fill="#1a1010"/><rect x="17" y="24" width="6" height="4" fill="#f0e0c0"/><rect x="18" y="25" width="4" height="2" fill="#4a9fd4"/></svg>',
+    journalist_f:'<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'"><rect width="40" height="40" fill="#0e1520"/><ellipse cx="20" cy="15" rx="8" ry="9" fill="#e8c8a0"/><rect x="12" y="24" width="16" height="16" fill="#3a2a1a"/><ellipse cx="16" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><ellipse cx="24" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><path d="M16 18 Q20 21 24 18" stroke="#a07840" stroke-width="0.8" fill="none"/><path d="M13 10 Q20 6 27 10 L28 15 Q20 11 12 15 Z" fill="#5a3a1a"/><rect x="17" y="24" width="6" height="4" fill="#e8d5a0"/><rect x="26" y="26" width="5" height="7" rx="1" fill="#e8d5a0"/><line x1="27" y1="28" x2="30" y2="28" stroke="#3a2a1a" stroke-width="0.8"/><line x1="27" y1="30" x2="30" y2="30" stroke="#3a2a1a" stroke-width="0.8"/></svg>',
+    veteran_m:'<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'"><rect width="40" height="40" fill="#0e1520"/><ellipse cx="20" cy="15" rx="8" ry="9" fill="#b08060"/><rect x="12" y="24" width="16" height="16" fill="#2a3a2a"/><ellipse cx="16" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><ellipse cx="24" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><path d="M16 18 Q20 20 24 18" stroke="#806040" stroke-width="0.8" fill="none"/><rect x="13" y="7" width="14" height="7" rx="1" fill="#3a3a2a"/><rect x="13" y="9" width="14" height="2" fill="#4a4a1a"/><rect x="17" y="24" width="6" height="4" fill="#e8d5a0"/><circle cx="22" cy="26" r="2" fill="#d4a017"/></svg>',
+    citizen_f:'<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'"><rect width="40" height="40" fill="#0e1520"/><ellipse cx="20" cy="15" rx="8" ry="9" fill="#c8b090"/><rect x="12" y="24" width="16" height="16" fill="#1a3a5a"/><ellipse cx="16" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><ellipse cx="24" cy="13" rx="1.2" ry="1.4" fill="#1a0a00"/><path d="M16 18 Q20 21 24 18" stroke="#907060" stroke-width="0.8" fill="none"/><path d="M14 8 Q20 5 26 8 L27 13 Q20 10 13 13 Z" fill="#8a6040"/><rect x="17" y="24" width="6" height="4" fill="#e8d5a0"/></svg>',
+    freedperson:'<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'"><rect width="40" height="40" fill="#0e1520"/><ellipse cx="20" cy="15" rx="8" ry="9" fill="#2a1005"/><rect x="12" y="24" width="16" height="16" fill="#3a2a1a"/><ellipse cx="16" cy="13" rx="1.2" ry="1.4" fill="#0a0000"/><ellipse cx="24" cy="13" rx="1.2" ry="1.4" fill="#0a0000"/><path d="M16 18 Q20 21 24 18" stroke="#5a3010" stroke-width="0.8" fill="none"/><ellipse cx="20" cy="9" rx="6" ry="5" fill="#1a0a05"/><rect x="17" y="24" width="6" height="4" fill="#e8d5a0"/></svg>'
+  };
+  return avatars[id]||avatars['scholar_f'];
+}
+
+const AVATAR_LIST=[
+  {id:'scholar_f',label:'Scholar'},
+  {id:'activist_m',label:'Activist'},
+  {id:'organizer_f',label:'Organizer'},
+  {id:'lawyer_m',label:'Lawyer'},
+  {id:'journalist_f',label:'Journalist'},
+  {id:'veteran_m',label:'Veteran'},
+  {id:'citizen_f',label:'Citizen'},
+  {id:'freedperson',label:'Freedperson'}
+];
+
+// ── SCENES ─────────────────────────────────────────────
+var SCENES={
+  reconstruction_south:'<svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><rect width="560" height="200" fill="#0a0c08"/><rect x="0" y="140" width="560" height="60" fill="#0d1008"/><rect x="60" y="60" width="80" height="90" fill="#101408" stroke="#1e2010" stroke-width="1"/><rect x="75" y="75" width="20" height="24" fill="#0a0c08" stroke="#1e2010" stroke-width="0.5"/><rect x="105" y="75" width="20" height="24" fill="#0a0c08" stroke="#1e2010" stroke-width="0.5"/><rect x="60" y="55" width="80" height="8" fill="#141808"/><rect x="100" y="110" width="20" height="40" fill="#0a0c08"/><path d="M60 58 L100 30 L140 58" fill="#141808"/><ellipse cx="380" cy="125" rx="9" ry="10" fill="#2a1005"/><rect x="372" y="134" width="16" height="20" fill="#3a2a1a"/><ellipse cx="420" cy="123" rx="9" ry="10" fill="#3d1a0a"/><rect x="412" y="132" width="16" height="18" fill="#1a2a3a"/><ellipse cx="460" cy="125" rx="8" ry="9" fill="#c09060"/><rect x="453" y="133" width="15" height="18" fill="#2a3a1a"/><rect x="200" y="90" width="80" height="50" fill="#1a1808" stroke="#2a2810" stroke-width="1"/><text x="240" y="120" font-family="Georgia,serif" font-size="8" fill="#c9b67a" text-anchor="middle" opacity="0.7">FREEDMEN\'S BUREAU</text><text x="280" y="192" font-family="serif" font-size="8" fill="#3a4a2a" text-anchor="middle" opacity="0.7">The Reconstructed South, 1865</text></svg>',
+  congress_hall:'<svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><rect width="560" height="200" fill="#080c10"/><rect x="50" y="30" width="460" height="160" fill="#0d1018" stroke="#1a2030" stroke-width="1"/><rect x="100" y="60" width="360" height="110" fill="#101520"/><rect x="240" y="40" width="80" height="40" fill="#141a28"/><ellipse cx="280" cy="38" rx="18" ry="16" fill="#101520" stroke="#1a2030" stroke-width="1"/><ellipse cx="280" cy="30" rx="8" ry="10" fill="#0d1018" stroke="#1a2030" stroke-width="1"/><rect x="278" y="20" width="4" height="14" fill="#e8d5a0" opacity="0.5"/><ellipse cx="160" cy="140" rx="10" ry="11" fill="#c09060"/><rect x="151" y="150" width="18" height="18" fill="#1a2a4a"/><ellipse cx="200" cy="138" rx="10" ry="11" fill="#3d1a0a"/><rect x="191" y="148" width="18" height="18" fill="#2a1a0a"/><ellipse cx="360" cy="140" rx="10" ry="11" fill="#d4a870"/><rect x="351" y="150" width="18" height="18" fill="#1a2030"/><ellipse cx="400" cy="138" rx="10" ry="11" fill="#b08060"/><rect x="391" y="148" width="18" height="18" fill="#2a1a1a"/><text x="280" y="192" font-family="serif" font-size="8" fill="#3a5a7a" text-anchor="middle" opacity="0.8">The United States Congress</text></svg>',
+  tenement_nyc:'<svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><rect width="560" height="200" fill="#06080c"/><rect x="0" y="150" width="560" height="50" fill="#080a0e"/><rect x="20" y="40" width="70" height="150" fill="#0c1018" stroke="#141c28" stroke-width="1"/><rect x="100" y="20" width="80" height="170" fill="#0e1420" stroke="#141c28" stroke-width="1"/><rect x="190" y="50" width="60" height="140" fill="#0c1018" stroke="#141c28" stroke-width="1"/><rect x="260" y="30" width="90" height="160" fill="#0e1420" stroke="#141c28" stroke-width="1"/><rect x="360" y="45" width="70" height="145" fill="#0c1018" stroke="#141c28" stroke-width="1"/><rect x="440" y="25" width="80" height="165" fill="#0e1420" stroke="#141c28" stroke-width="1"/><rect x="28" y="55" width="12" height="16" fill="#1a2a0a" opacity="0.6"/><rect x="46" y="55" width="12" height="16" fill="#f0c040" opacity="0.4"/><rect x="108" y="35" width="12" height="16" fill="#1a2a0a" opacity="0.5"/><rect x="126" y="35" width="12" height="16" fill="#f0c040" opacity="0.3"/><rect x="268" y="45" width="12" height="16" fill="#1a2a0a" opacity="0.5"/><ellipse cx="430" cy="165" rx="9" ry="10" fill="#6b3a1a"/><rect x="422" y="174" width="16" height="16" fill="#3a2810"/><ellipse cx="460" cy="162" rx="9" ry="10" fill="#c09060"/><rect x="452" y="171" width="16" height="16" fill="#2a3a5a"/><ellipse cx="490" cy="165" rx="8" ry="9" fill="#2a1005"/><rect x="483" y="173" width="14" height="16" fill="#1a1a1a"/><text x="280" y="195" font-family="serif" font-size="8" fill="#2a3a5a" text-anchor="middle" opacity="0.7">Lower East Side, New York City, c. 1905</text></svg>',
+  factory_floor:'<svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><rect width="560" height="200" fill="#060810"/><rect x="0" y="155" width="560" height="45" fill="#080a0e"/><rect x="80" y="60" width="400" height="120" fill="#0a0c14"/><rect x="100" y="80" width="60" height="90" fill="#0c1018" stroke="#1a2030" stroke-width="0.5"/><rect x="180" y="70" width="80" height="100" fill="#0c1018" stroke="#1a2030" stroke-width="0.5"/><rect x="280" y="80" width="60" height="90" fill="#0c1018" stroke="#1a2030" stroke-width="0.5"/><rect x="360" y="70" width="80" height="100" fill="#0c1018" stroke="#1a2030" stroke-width="0.5"/><ellipse cx="130" cy="165" rx="8" ry="9" fill="#6b3a1a"/><ellipse cx="200" cy="163" rx="8" ry="9" fill="#c09060"/><ellipse cx="310" cy="165" rx="8" ry="9" fill="#3d1a0a"/><ellipse cx="390" cy="163" rx="8" ry="9" fill="#b08060"/><ellipse cx="430" cy="165" rx="8" ry="9" fill="#2a1005"/><path d="M80 60 Q280 30 480 50" stroke="#2a3a5a" stroke-width="1.5" fill="none" opacity="0.5"/><text x="280" y="195" font-family="serif" font-size="8" fill="#2a3a5a" text-anchor="middle" opacity="0.7">American Factory Floor, c. 1910</text></svg>',
+  internment_camp:'<svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><rect width="560" height="200" fill="#0a0c08"/><rect x="0" y="150" width="560" height="50" fill="#0c0e08"/><rect x="40" y="100" width="100" height="60" fill="#0e1008" stroke="#1a1808" stroke-width="1"/><rect x="160" y="110" width="100" height="50" fill="#0e1008" stroke="#1a1808" stroke-width="1"/><rect x="280" y="100" width="100" height="60" fill="#0e1008" stroke="#1a1808" stroke-width="1"/><rect x="400" y="110" width="100" height="50" fill="#0e1008" stroke="#1a1808" stroke-width="1"/><line x1="0" y1="140" x2="560" y2="140" stroke="#2a2810" stroke-width="1" stroke-dasharray="5,5"/><rect x="0" y="55" width="560" height="2" fill="#2a2810" opacity="0.5"/><rect x="0" y="65" width="560" height="2" fill="#2a2810" opacity="0.5"/><ellipse cx="90" cy="165" rx="8" ry="9" fill="#c09060"/><ellipse cx="130" cy="163" rx="8" ry="9" fill="#b08060"/><ellipse cx="340" cy="165" rx="8" ry="9" fill="#c09060"/><ellipse cx="380" cy="163" rx="8" ry="9" fill="#d4a870"/><rect x="520" y="40" width="6" height="120" fill="#2a2810"/><path d="M523 40 L516 48 L530 48 Z" fill="#1a2030"/><text x="280" y="192" font-family="serif" font-size="8" fill="#3a3a2a" text-anchor="middle" opacity="0.7">Manzanar War Relocation Center, California, 1942</text></svg>',
+  courtroom:'<svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><rect width="560" height="200" fill="#080c10"/><rect x="40" y="20" width="480" height="170" fill="#0c1018" stroke="#1a2030" stroke-width="1"/><rect x="120" y="40" width="320" height="80" fill="#0e1420"/><ellipse cx="280" cy="60" rx="14" ry="15" fill="#c09060"/><rect x="267" y="74" width="26" height="24" fill="#1a2030"/><rect x="250" y="113" width="60" height="5" fill="#e8d5a0" opacity="0.6"/><rect x="140" y="140" width="100" height="40" fill="#101520" stroke="#1a2030" stroke-width="0.5"/><rect x="320" y="140" width="100" height="40" fill="#101520" stroke="#1a2030" stroke-width="0.5"/><ellipse cx="190" cy="152" rx="10" ry="11" fill="#3d1a0a"/><rect x="181" y="162" width="18" height="18" fill="#1a1a2a"/><ellipse cx="370" cy="152" rx="10" ry="11" fill="#d4a870"/><rect x="361" y="162" width="18" height="18" fill="#1a2a4a"/><text x="280" y="195" font-family="serif" font-size="8" fill="#2a3a5a" text-anchor="middle" opacity="0.8">United States Supreme Court, Washington D.C.</text></svg>',
+  march_scene:'<svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><rect width="560" height="200" fill="#0a0c08"/><rect x="0" y="155" width="560" height="45" fill="#0c0e08"/><rect x="200" y="50" width="160" height="14" fill="#c03030" opacity="0.9"/><text x="280" y="61" font-family="sans-serif" font-size="7" fill="white" text-anchor="middle">WE SHALL OVERCOME</text><rect x="190" y="70" width="180" height="12" fill="#1a2a4a" opacity="0.8"/><text x="280" y="80" font-family="sans-serif" font-size="7" fill="#7ec8f0" text-anchor="middle">EQUAL RIGHTS FOR ALL</text><ellipse cx="80" cy="155" rx="9" ry="10" fill="#2a1005"/><ellipse cx="115" cy="152" rx="9" ry="10" fill="#3d1a0a"/><ellipse cx="148" cy="155" rx="9" ry="10" fill="#6b3a1a"/><ellipse cx="182" cy="152" rx="9" ry="10" fill="#c09060"/><ellipse cx="215" cy="155" rx="8" ry="9" fill="#3d1a0a"/><ellipse cx="248" cy="152" rx="9" ry="10" fill="#2a1005"/><ellipse cx="282" cy="155" rx="9" ry="10" fill="#c09060"/><ellipse cx="315" cy="152" rx="8" ry="9" fill="#6b3a1a"/><ellipse cx="348" cy="155" rx="9" ry="10" fill="#d4a870"/><ellipse cx="382" cy="152" rx="9" ry="10" fill="#3d1a0a"/><ellipse cx="415" cy="155" rx="8" ry="9" fill="#2a1005"/><ellipse cx="448" cy="152" rx="9" ry="10" fill="#c09060"/><ellipse cx="480" cy="155" rx="8" ry="9" fill="#3d1a0a"/><text x="280" y="195" font-family="serif" font-size="8" fill="#3a4a2a" text-anchor="middle" opacity="0.7">March on Washington, August 28, 1963</text></svg>',
+  protest_modern:'<svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><rect width="560" height="200" fill="#080c10"/><rect x="0" y="150" width="560" height="50" fill="#0a0e14"/><rect x="60" y="20" width="440" height="140" fill="#0c1018" stroke="#1a2030" stroke-width="1"/><rect x="100" y="40" width="360" height="100" fill="#101520"/><ellipse cx="280" cy="70" rx="14" ry="15" fill="#c09060"/><rect x="267" y="84" width="26" height="24" fill="#1a2030"/><rect x="100" y="80" width="80" height="6" fill="#4a9fd4" opacity="0.7"/><rect x="380" y="80" width="80" height="6" fill="#4a9fd4" opacity="0.7"/><ellipse cx="150" cy="165" rx="9" ry="10" fill="#3d1a0a"/><ellipse cx="200" cy="162" rx="9" ry="10" fill="#c09060"/><ellipse cx="250" cy="165" rx="8" ry="9" fill="#2a1005"/><ellipse cx="300" cy="162" rx="9" ry="10" fill="#d4a870"/><ellipse cx="350" cy="165" rx="9" ry="10" fill="#6b3a1a"/><ellipse cx="400" cy="162" rx="8" ry="9" fill="#c09060"/><text x="280" y="195" font-family="serif" font-size="8" fill="#2a3a5a" text-anchor="middle" opacity="0.8">The Ongoing Debate, Late 20th Century</text></svg>'
+};
+
+// ── HIST CARDS ─────────────────────────────────────────
+var HIST_CARDS={
+  frederick_douglass:{icon:'✍️',name:'Frederick Douglass',role:'Abolitionist, Orator, Writer',desc:'Escaped slavery to become the most eloquent voice against it. His autobiography exposed the reality of bondage. He argued that the Constitution, rightly read, was an anti-slavery document.',unlockChapter:0},
+  ida_b_wells:{icon:'📰',name:'Ida B. Wells',role:'Journalist, Anti-Lynching Crusader',desc:'Launched the first major anti-lynching campaign through fearless journalism. She documented hundreds of lynchings and argued the practice was not about crime but about racial control and economic competition.',unlockChapter:1},
+  emma_lazarus:{icon:'🗽',name:'Emma Lazarus',role:'Poet, "The New Colossus"',desc:'"Give me your tired, your poor, your huddled masses yearning to breathe free." Her 1883 poem became America\'s promise to the world and the defining statement of immigrant freedom.',unlockChapter:1},
+  thurgood_marshall:{icon:'⚖️',name:'Thurgood Marshall',role:'NAACP Legal Defense Fund, Justice',desc:'Argued Brown v. Board of Education before the Supreme Court in 1954. His legal strategy dismantled "separate but equal." Later became the first Black Justice of the Supreme Court.',unlockChapter:2},
+  eleanor_roosevelt:{icon:'🕊️',name:'Eleanor Roosevelt',role:'First Lady, UN Human Rights Champion',desc:'Championed the Universal Declaration of Human Rights. She used her platform to push back against Japanese internment and advocate for the expansion of civil rights in America.',unlockChapter:2},
+  rosa_parks:{icon:'🚌',name:'Rosa Parks',role:'NAACP Secretary, Montgomery',desc:'Her refusal to give up her seat on December 1, 1955 was a deliberate act by a trained NAACP organizer. The 381-day boycott that followed transformed the Civil Rights Movement.',unlockChapter:3},
+  mlk:{icon:'✊',name:'Dr. Martin Luther King Jr.',role:'SCLC, Birmingham to Memphis',desc:'His Letter from Birmingham Jail remains the most powerful moral argument for nonviolent direct action. He connected the Civil Rights Movement to the founding ideals of American freedom.',unlockChapter:3},
+  dolores_huerta:{icon:'🌾',name:'Dolores Huerta',role:'UFW Co-Founder, Labor Organizer',desc:'Co-founded the United Farm Workers with Cesar Chavez. Her organizing expanded the meaning of American rights to include immigrant labor, connecting freedom to economic dignity.',unlockChapter:4},
+  sandra_day_oconnor:{icon:'🔨',name:'Sandra Day O\'Connor',role:'First Female Supreme Court Justice',desc:'Appointed in 1981 as the first woman on the Supreme Court. Her landmark opinions on affirmative action, abortion rights, and civil liberties shaped the ongoing meaning of constitutional freedom.',unlockChapter:4}
+};
+
+// ── BADGES ─────────────────────────────────────────────
+var BADGES=[
+  {id:'first_voice',icon:'📜',label:'First Voice',desc:'Completed Chapter 1'},
+  {id:'crossing_guard',icon:'🌉',label:'Crossing Over',desc:'Completed Chapter 2'},
+  {id:'liberty_under_fire',icon:'🔥',label:'Liberty Under Fire',desc:'Completed Chapter 3'},
+  {id:'marcher',icon:'✊',label:'The Marcher',desc:'Completed Chapter 4'},
+  {id:'freedom_debated',icon:'⚖️',label:'Still Debated',desc:'Completed all 5 chapters'},
+  {id:'perfect_chapter',icon:'💯',label:'Perfect Chapter',desc:'Score 100% on any chapter'},
+  {id:'historian',icon:'📖',label:'Freedom Scholar',desc:'Unlocked 5 historical cards'},
+  {id:'score_5000',icon:'🥈',label:'Rights Champion',desc:'Reach 5,000 points'},
+  {id:'score_10000',icon:'🥇',label:'Liberty Historian',desc:'Reach 10,000 points'},
+];
+
+// ── RANKS ──────────────────────────────────────────────
+var RANKS=[
+  {min:0,label:'Curious Citizen'},
+  {min:300,label:'Rights Seeker'},
+  {min:800,label:'Liberty Defender'},
+  {min:1600,label:'Justice Advocate'},
+  {min:2800,label:'Freedom Strategist'},
+  {min:4500,label:'Civil Liberties Scholar'},
+  {min:6500,label:'Constitutional Historian'},
+  {min:9000,label:'Champion of Liberty'},
+];
+function getRank(score){var r=RANKS[0];for(var i=0;i<RANKS.length;i++)if((score||0)>=RANKS[i].min)r=RANKS[i];return r.label;}
+
+// ── CHAPTERS ───────────────────────────────────────────
+var CHAPTERS=[
+{id:'ch1',num:1,title:'A New Birth of Freedom?',icon:'📜',era:'Reconstruction Era',period:'United States — 1865 to 1877',
+intro:'The Civil War ends. The 13th Amendment abolishes slavery. For a brief, extraordinary moment, the federal government attempts to guarantee citizenship, equal protection, and voting rights to four million formerly enslaved Americans. But freedom is not simply declared — it must be defended.',
+focus:'13th, 14th, and 15th Amendments; Black Codes; Reconstruction politics; SS.912.A.3.1',
+outro:'The Constitution was amended to promise freedom and equality. But legal promise and lived reality were different things from the start.',
+cardEarned:'frederick_douglass',
+changed:'The Constitution now promised citizenship and equal protection to all people born in the United States.',
+continued:'White supremacist violence and Black Codes undermined legal freedom almost immediately.',
+newQuestion:'If rights exist in law, who makes them real in daily life?',
+beats:[
+{scene:'reconstruction_south',location:'Richmond, Virginia',date:'1865',
+narrative:'The war is over. Four million people are free. Congress passes the 13th Amendment, abolishing slavery. But "free" is not the same as "equal." Southern states immediately pass Black Codes — laws that force freedpeople into labor contracts, restrict movement, and criminalize unemployment. The codes are designed to recreate the conditions of slavery in everything but name.',
+charVoice:'Frederick Douglass warned: "Slavery is not abolished until the Black man has the ballot."',
+decision:'What did the Black Codes reveal about the nature of freedom after the Civil War?',
+choices:[
+{text:'That Southern states accepted emancipation but needed time to adjust their legal systems',correct:false,feedback:'Black Codes were not a good-faith adjustment — they were a direct attempt to restore forced labor through legal mechanisms. Congress responded with the 14th Amendment to override them.',std:'SS.912.A.3.1'},
+{text:'That legal freedom meant little without the political and economic power to enforce it',correct:true,feedback:'The Black Codes showed that emancipation alone did not guarantee freedom. Without votes, land, and legal protection, formerly enslaved people could be controlled through law as effectively as through chains.',std:'SS.912.A.3.1'},
+{text:'That Congress had deliberately written weaknesses into the 13th Amendment to protect states\' rights',correct:false,feedback:'Radical Republicans intended the 13th Amendment to be strong. Its weakening came from Supreme Court decisions and political compromise after the fact, not from the original drafting.',std:'SS.912.A.3.1'},
+{text:'That formerly enslaved people lacked the education and economic skills needed for full citizenship',correct:false,feedback:'This was the justification white Southerners used, but historians reject it. Freedpeople actively pursued education, land ownership, and political participation whenever given the chance.',std:'SS.912.A.3.1'}
+]},
+{scene:'congress_hall',location:'Washington D.C.',date:'1866-1868',
+narrative:'Congress, controlled by Radical Republicans, responds. The 14th Amendment declares all persons born in the United States are citizens with equal protection under law. The 15th Amendment grants Black men the right to vote. African Americans serve in Congress, as state legislators, and as local officials across the South. For one extraordinary decade, American democracy expands dramatically.',
+charVoice:'For Black Americans in the South, Reconstruction was a genuine revolution. For white Southerners determined to resist it, it was an occupation.',
+decision:'Why did Reconstruction represent such a fundamental challenge to American society?',
+choices:[
+{text:'It transferred economic control of Southern plantations from white landowners to the federal government',correct:false,feedback:'Reconstruction did not redistribute land. Most freedpeople remained economically dependent on white landowners through sharecropping. The failure to provide land was one of Reconstruction\'s major shortcomings.',std:'SS.912.A.3.1'},
+{text:'It required Southern states to adopt the Northern industrial economy as a condition of readmission',correct:false,feedback:'Readmission conditions focused on ratifying amendments and establishing new state governments. Transforming the Southern economy was not a formal requirement.',std:'SS.912.A.3.1'},
+{text:'It forced the nation to decide whether its founding ideals of equality applied to all people',correct:true,feedback:'Reconstruction demanded that America live up to the Declaration of Independence and the amended Constitution. It was the most radical expansion of democracy in American history — and it provoked the most violent resistance.',std:'SS.912.A.3.1'},
+{text:'It gave the federal government permanent authority to regulate labor contracts in all states',correct:false,feedback:'Reconstruction expanded federal power significantly, but it did not create permanent federal control over labor contracts. The Freedmen\'s Bureau was temporary and was disbanded in 1872.',std:'SS.912.A.3.1'}
+]},
+{scene:'reconstruction_south',location:'The American South',date:'1876-1877',
+narrative:'Reconstruction collapses. The Compromise of 1877 ends federal military presence in the South. The Supreme Court narrows the 14th Amendment repeatedly. Literacy tests, poll taxes, and grandfather clauses strip Black men of the vote. Jim Crow segregation is written into law and enforced by terror. Plessy v. Ferguson (1896) ratifies "separate but equal." The constitutional promises of Reconstruction are not yet dead — but they are buried.',
+charVoice:'What does it mean when a constitutional right exists on paper but is systematically denied in practice?',
+decision:'What was the most significant outcome of the end of Reconstruction for African Americans?',
+choices:[{text:'African Americans lost political rights but retained the economic gains they had made during Reconstruction',correct:false,feedback:'Both political and economic gains were reversed. Sharecropping replaced plantation slavery as the dominant labor system, keeping most freedpeople in debt and dependence.',std:'SS.912.A.3.1'},{text:'Constitutional rights remained on paper, but enforcement ended and terror made them meaningless',correct:true,feedback:'The 14th and 15th Amendments were never repealed, but Supreme Court decisions, state laws, and organized violence stripped them of meaning. This gap between legal promise and lived reality defined Black American life for the next 80 years.',std:'SS.912.A.3.1'},{text:'The federal government continued to enforce civil rights through the courts, even after withdrawing troops',correct:false,feedback:'The Supreme Court actively narrowed Reconstruction protections in the Civil Rights Cases (1883) and Plessy v. Ferguson (1896), giving legal cover to segregation rather than challenging it.',std:'SS.912.A.3.1'},{text:'Jim Crow covered only transportation and schools, leaving employment and housing entirely unaffected by racial restrictions',correct:false,feedback:'Jim Crow covered virtually every area of public life — parks, restaurants, hospitals, hotels, and the legal system — all enforced by the constant threat of violence.',std:'SS.912.A.3.1'}]}
+]},
+
+{id:'ch2',num:2,title:'Whose Opportunity Counts?',icon:'🚂',era:'Industrial & Progressive Era',period:'United States — 1880 to 1920',
+intro:'Millions of immigrants arrive through Ellis Island. Industrial capitalism transforms the economy. The promise of American freedom draws people from every corner of the world — but freedom is not distributed equally. Citizenship, labor rights, and political power remain tightly controlled by those already in power.',
+focus:'Immigration; Chinese Exclusion Act; labor rights; Progressive Era; SS.912.A.3.2, SS.912.A.4.1',
+outro:'Industrial America expanded freedom for some while systematically excluding others from its promise.',
+cardEarned:'ida_b_wells',
+changed:'Labor organizing and Progressive reforms expanded legal protections for some workers.',
+continued:'Racial exclusion, nativist restrictions, and unequal opportunity persisted.',
+newQuestion:'Can a nation built on immigrant labor deny immigrants the rights of citizenship?',
+beats:[
+{scene:'tenement_nyc',location:'Ellis Island, New York',date:'1892-1910',
+narrative:'Twelve million immigrants pass through Ellis Island between 1892 and 1954. They come from southern and eastern Europe, fleeing poverty and persecution. They take the hardest, most dangerous jobs in American industry. The Statue of Liberty promises welcome. But Congress passes the Chinese Exclusion Act in 1882, the first federal law to restrict immigration by race. By 1924, quotas severely limit immigration from southern and eastern Europe.',
+charVoice:'Emma Lazarus wrote "The New Colossus" in 1883: "Give me your tired, your poor, your huddled masses yearning to breathe free."',
+decision:'What does the gap between the Statue of Liberty\'s promise and the Chinese Exclusion Act reveal?',
+choices:[
+{text:'That the Statue of Liberty was a French gift with no connection to actual American immigration policy',correct:false,feedback:'The Statue did become a powerful symbol of American welcome, and Emma Lazarus\'s poem was written specifically for it. The contradiction between the symbol and the law is real and historically significant.',std:'SS.912.A.3.2'},
+{text:'That the federal government opposed all immigration during this period for economic reasons',correct:false,feedback:'The federal government actively encouraged European immigration for industrial labor during this period. The Chinese Exclusion Act targeted a specific racial group, not immigrants generally.',std:'SS.912.A.3.2'},
+{text:'That American freedom was selectively applied — some groups welcomed, others explicitly barred by law',correct:true,feedback:'The same decade that produced Emma Lazarus\'s poem of welcome also produced the first federal law restricting immigration by race. American freedom has never been universal — its boundaries have always been contested.',std:'SS.912.A.3.2'},
+{text:'That Congress and the President were deeply divided over immigration, with the courts ultimately resolving the conflict in favor of open borders',correct:false,feedback:'The Chinese Exclusion Act passed with broad support and was signed by President Arthur. There was no significant institutional conflict between Congress and the executive on this issue.',std:'SS.912.A.3.2'}
+]},
+{scene:'factory_floor',location:'Chicago, Illinois',date:'1911',
+narrative:'One hundred forty-six garment workers, mostly young immigrant women, die in the Triangle Shirtwaist Factory fire. The doors are locked. The fire escapes collapse. The workers had tried to unionize the year before and been fired. The fire transforms American labor politics. The International Ladies\' Garment Workers\' Union surges in membership. New York passes 36 new safety laws. But Black workers are excluded from most major unions.',
+charVoice:'Frances Perkins, who witnessed the fire from the street, became FDR\'s Secretary of Labor and the architect of the New Deal.',
+decision:'What did the Triangle Fire reveal about who had access to labor rights in industrial America?',
+choices:[
+{text:'That industrial capitalism treated all workers equally regardless of race or national origin',correct:false,feedback:'Industrial capitalism was deeply stratified by race. Black workers were restricted to the most dangerous and lowest-paid jobs, and were excluded from most major unions.',std:'SS.912.A.4.1'},
+{text:'That labor gains of this era applied mainly to white immigrant workers and excluded most Black workers',correct:true,feedback:'The labor movement won genuine protections, but most major unions excluded Black workers through explicit rules or tacit practice. Freedom from exploitation was racially divided in industrial America.',std:'SS.912.A.4.1'},
+{text:'That the Progressive Era successfully extended equal workplace protections to all American workers',correct:false,feedback:'Progressive Era reforms benefited primarily white workers. New Deal programs built on this foundation — Social Security and the National Labor Relations Act both excluded most Black workers.',std:'SS.912.A.4.1'},
+{text:'That labor unions focused exclusively on ending child labor and had no interest in adult wages, hours, or workplace safety conditions',correct:false,feedback:'Labor unions fought for hours, wages, safety, and the right to organize — a broad agenda. Child labor was one concern among many, and workplace safety was central after the Triangle Fire.',std:'SS.912.A.4.1'}
+]},
+{scene:'reconstruction_south',location:'Memphis, Tennessee',date:'1892',
+narrative:'Ida B. Wells is a young journalist in Memphis when three Black businessmen — her friends — are lynched by a white mob jealous of their successful grocery store. She investigates. She discovers that "protecting white womanhood" is largely a lie — many lynching victims had consensual relationships with white women, or were simply economic competitors. Her reporting is so threatening that her newspaper office is destroyed and she is forced to flee Memphis.',
+charVoice:'"The way to right wrongs is to turn the light of truth upon them." — Ida B. Wells',
+decision:'What made Ida B. Wells\'s anti-lynching campaign so threatening to the white power structure?',
+choices:[
+{text:'She organized armed self-defense militias to protect Black communities from mob violence',correct:false,feedback:'Wells\'s primary weapon was journalism. While she did advocate for self-defense as a right, her most powerful and dangerous tool was documented evidence about lynching\'s real causes.',std:'SS.912.A.3.2'},
+{text:'She persuaded Congress to pass a federal anti-lynching law that put perpetrators in prison',correct:false,feedback:'No federal anti-lynching law was passed during Wells\'s lifetime despite decades of effort. Congress resisted for over a century — the Emmett Till Anti-Lynching Act was not signed until 2022.',std:'SS.912.A.3.2'},
+{text:'Her documented evidence destroyed the moral justification for lynching by revealing its real motives',correct:true,feedback:'Wells showed that "protecting white womanhood" was frequently false and that economic competition was often the real cause. This exposed lynching as racial terrorism, not justice, stripping it of its public defense.',std:'SS.912.A.3.2'},
+{text:'Her connections to Northern newspapers gave her legal immunity that Southern authorities could not override',correct:false,feedback:'Wells had no legal immunity. Her newspaper office was destroyed and she was forced to flee Memphis with her life. She continued her work from the North precisely because she was no longer safe in the South.',std:'SS.912.A.3.2'}
+]}
+]},
+
+{id:'ch3',num:3,title:'Liberty Under Pressure',icon:'⚔️',era:'World War I & World War II',period:'United States — 1917 to 1945',
+intro:'America goes to war — twice. Each time, the federal government expands its power over speech, dissent, and civil liberties. In World War I, the Espionage Act criminalizes anti-war speech. In World War II, 120,000 Japanese Americans are forcibly removed from their homes and imprisoned without trial. The question of how far national security can reach into individual liberty is not settled in wartime — it is only deferred.',
+focus:'Espionage Act; Japanese internment; civil liberties and security; SS.912.A.5.4, SS.912.A.6.4',
+outro:'Both World Wars demonstrated how quickly civil liberties can be suspended in the name of national security.',
+cardEarned:'eleanor_roosevelt',
+changed:'The federal government expanded dramatically and set precedents for wartime civil liberties restrictions.',
+continued:'The pattern of suspending rights during crisis — for some Americans more than others — was not challenged effectively.',
+newQuestion:'Does a democracy that suspends rights in emergencies still deserve to be called free?',
+beats:[
+{scene:'congress_hall',location:'Washington D.C.',date:'1917-1918',
+narrative:'Congress passes the Espionage Act (1917) and the Sedition Act (1918). Speaking against the draft, criticizing the government, or "obstructing" the war effort can result in up to 20 years in prison. Socialist Eugene Debs is sentenced to 10 years for a speech opposing the draft. Over 1,500 people are prosecuted. The Supreme Court, in Schenck v. United States (1919), upholds the convictions, introducing the "clear and present danger" test.',
+charVoice:'Justice Oliver Wendell Holmes argued that free speech in wartime is like falsely shouting fire in a crowded theater.',
+decision:'What did the Espionage and Sedition Acts reveal about civil liberties during wartime?',
+choices:[
+{text:'They were ruled unconstitutional by the Supreme Court, establishing that wartime does not limit free speech',correct:false,feedback:'The Supreme Court upheld both Acts in Schenck v. United States (1919). Holmes\'s "clear and present danger" test actually made it easier to restrict speech during national emergencies, not harder.',std:'SS.912.A.5.4'},
+{text:'Political dissent becomes especially vulnerable in wartime, when fear can override constitutional protections',correct:true,feedback:'The Acts criminalized political opposition to the war and the Supreme Court upheld them. This created a precedent that civil liberties could be limited during national emergencies — one repeatedly invoked in the 20th century.',std:'SS.912.A.5.4'},
+{text:'They targeted only recent immigrants and foreign nationals, leaving American citizens\' speech rights untouched',correct:false,feedback:'The Acts were used primarily against American citizens — socialists, labor organizers, and anti-war activists. Eugene Debs was a native-born American who ran for president four times.',std:'SS.912.A.5.4'},
+{text:'Congress passed them over President Wilson\'s veto, showing executive branch support for free speech',correct:false,feedback:'President Wilson supported both Acts and signed them into law. His administration actively prosecuted dissenters under them.',std:'SS.912.A.5.4'}
+]},
+{scene:'internment_camp',location:'Manzanar, California',date:'February 1942',
+narrative:'Two months after Pearl Harbor, President Roosevelt signs Executive Order 9066. One hundred twenty thousand Japanese Americans — two-thirds of them American citizens — are forcibly removed from their homes and imprisoned in relocation camps. They lose homes, farms, and businesses. The Supreme Court, in Korematsu v. United States (1944), upholds the internment as a military necessity. No Japanese American is ever convicted of espionage or sabotage.',
+charVoice:'Fred Korematsu refused to report to the assembly center. He was convicted. His case went to the Supreme Court — and he lost, 6-3.',
+decision:'What does Japanese internment reveal about the limits of constitutional protection in America?',
+choices:[
+{text:'That citizenship provided full protection against government action, even during national emergencies',correct:false,feedback:'Two-thirds of those interned were American citizens by birth. Citizenship offered no protection against Executive Order 9066, which is precisely what made the internment such a serious constitutional violation.',std:'SS.912.A.6.4'},
+{text:'That the Supreme Court consistently refused to defer to military authority on questions of civil rights',correct:false,feedback:'The Supreme Court upheld the internment in Korematsu (1944), deferring entirely to military judgment. This is one of the Court\'s most criticized decisions for exactly that reason.',std:'SS.912.A.6.4'},
+{text:'That Congress and the President condemned the internment and worked to end it quickly',correct:false,feedback:'Congress appropriated the funds for the camps, and Executive Order 9066 was not formally revoked until 1976. Congress did not formally apologize until the Civil Liberties Act of 1988.',std:'SS.912.A.6.4'},
+{text:'That racial fear, not evidence of disloyalty, can override constitutional rights in a crisis',correct:true,feedback:'No Japanese American was convicted of espionage or sabotage. The internment was driven by racial prejudice and wartime panic, not military necessity. Korematsu v. United States was formally repudiated by the Supreme Court in 2018.',std:'SS.912.A.6.4'}
+]},
+{scene:'congress_hall',location:'Washington D.C.',date:'1944-1945',
+narrative:'Eleanor Roosevelt publicly opposes Japanese internment. She visits a relocation camp and photographs what she sees. Her advocacy is limited — she cannot stop the policy — but she uses her position to push for early release and resettlement assistance for those interned. Simultaneously, 33,000 Japanese Americans serve in the U.S. military, including the 442nd Regimental Combat Team, the most decorated unit in American military history.',
+charVoice:'Fred Korematsu: "I would like to see the government admit that they were wrong and do something about it so this will never happen again."',
+decision:'What does Japanese American military service during WWII reveal about American identity and freedom?',
+choices:[
+{text:'It proved military service was the most reliable path to full civil rights recognition in American history',correct:false,feedback:'Japanese Americans\' civil rights were not restored until 1988, more than 40 years after their distinguished service. Military service has been used to claim rights, but it has not reliably guaranteed them.',std:'SS.912.A.6.4'},
+{text:'It demonstrated that the American government respected the loyalty of Japanese Americans by giving them equal treatment and full civil rights throughout the entire wartime period',correct:false,feedback:'The internment and military service happened simultaneously. The government imprisoned Japanese Americans as suspected enemies while also accepting their service — a profound contradiction.',std:'SS.912.A.6.4'},
+{text:'It revealed a stark contradiction: soldiers winning medals in Italy while their families remained imprisoned in camps',correct:true,feedback:'Soldiers of the 442nd were winning medals in Italy while their families remained imprisoned in camps. This contradiction was cited repeatedly by civil rights leaders as evidence of American hypocrisy.',std:'SS.912.A.6.4'},
+{text:'It had no lasting influence on civil rights debates or American understanding of wartime injustice',correct:false,feedback:'The internment became a frequently cited example of rights violations in civil rights debates. The formal apology and reparations in 1988 set an important precedent for governmental acknowledgment of past injustice.',std:'SS.912.A.6.4'}
+]}
+]},
+
+{id:'ch4',num:4,title:'Demanding Equality',icon:'✊',era:'Civil Rights Movement',period:'United States — 1954 to 1968',
+intro:'The constitutional promises of Reconstruction — buried for 80 years under Jim Crow — are finally redeemed. Not by government generosity, but by organized, disciplined, nonviolent pressure. Students, ministers, lawyers, and ordinary citizens force a confrontation with the gap between American ideals and American reality.',
+focus:'Brown v. Board; Montgomery boycott; Civil Rights Act 1964; Voting Rights Act 1965; SS.912.A.7.5, SS.912.A.7.8',
+outro:'Rights were not given — they were demanded, organized for, and won at great cost.',
+cardEarned:'mlk',
+changed:'Legal segregation was dismantled. The Voting Rights Act enfranched millions. The 14th Amendment\'s promise was finally being enforced.',
+continued:'Economic inequality, residential segregation, and racial violence continued after formal legal victories.',
+newQuestion:'When legal equality is won, what remains to be done?',
+beats:[
+{scene:'courtroom',location:'Washington D.C.',date:'May 17, 1954',
+narrative:'Thurgood Marshall stands before the Supreme Court in Brown v. Board of Education. He argues that "separate but equal" is inherently unequal — that segregated education damages Black children psychologically and materially. The Court agrees, unanimously. "Separate but equal has no place." Plessy v. Ferguson is overturned. But "all deliberate speed" means different things to different people. By 1960, only 1% of Black children in the South attend integrated schools.',
+charVoice:'Thurgood Marshall: "In the United States, the spirit of the Constitution is the law of the land."',
+decision:'Why was Brown v. Board of Education a landmark decision even though its implementation was so slow?',
+choices:[
+{text:'It was primarily significant because it caused immediate desegregation of all Southern public schools, which was fully accomplished within a year of the ruling',correct:false,feedback:'Implementation was extremely slow. Massive resistance, violence, and legal delays meant most Southern schools remained segregated well into the 1970s — nearly 20 years after the ruling.',std:'SS.912.A.7.5'},
+{text:'It established that government-mandated racial separation violates equal protection under the 14th Amendment',correct:true,feedback:'Brown overturned Plessy and established that state-mandated racial separation was unconstitutional. This became the legal foundation for the Civil Rights Act, Voting Rights Act, and decades of civil rights litigation.',std:'SS.912.A.7.5'},
+{text:'It was a narrow ruling that only applied to graduate schools and did not address elementary education',correct:false,feedback:'Brown directly addressed harm done to children in elementary schools. The ruling was quickly extended to other public facilities and became the basis for broad civil rights law.',std:'SS.912.A.7.5'},
+{text:'Southern states accepted the ruling and began voluntary compliance within two years of the decision',correct:false,feedback:'Virginia closed its public schools rather than integrate. Federal troops were required at Little Rock in 1957. Resistance was widespread, organized, and often violent.',std:'SS.912.A.7.5'}
+]},
+{scene:'march_scene',location:'Washington D.C.',date:'August 28, 1963',
+narrative:'250,000 people march to the Lincoln Memorial. King tells the crowd he has a dream. But the full name of the march is the "March on Washington for Jobs and Freedom." King argues that the Civil Rights Movement is also an economic movement — that freedom without economic security is incomplete. Congress is watching. The Civil Rights Act of 1964 passes the following year after a 57-day Senate filibuster.',
+charVoice:'"We cannot be satisfied as long as a Negro in Mississippi cannot vote and a Negro in New York believes he has nothing for which to vote." — Dr. King, 1963',
+decision:'Why did the Civil Rights Movement connect racial rights to economic justice?',
+choices:[{text:'Because economic redistribution was always the movement\'s primary goal, not legal equality or voting rights',correct:false,feedback:'Voting rights and legal equality were central goals. Economic justice was an additional demand, not a substitute. Conflating the two misrepresents the movement\'s strategy and priorities.',std:'SS.912.A.7.7'},{text:'Because the federal government had already passed laws ending legal segregation before the march',correct:false,feedback:'The Civil Rights Act was not passed until July 1964, nearly a year after the March on Washington. The march was intended to pressure Congress to pass it.',std:'SS.912.A.7.8'},{text:'Because legal equality alone leaves economic structures of inequality intact',correct:true,feedback:'King and movement leaders understood that desegregation without economic transformation was incomplete. The "Jobs and Freedom" framing reflected their belief that political rights and economic security were inseparable goals.',std:'SS.912.A.7.7'},{text:'Because economic arguments were more persuasive to white Northern voters than civil rights arguments at this time',correct:false,feedback:'King\'s focus on economic justice actually made him more controversial, not less. His approval ratings among white Americans dropped significantly in his final years as he emphasized economic inequality.',std:'SS.912.A.7.7'}]},
+{scene:'courtroom',location:'Washington D.C.',date:'1965',
+narrative:'The Voting Rights Act of 1965 passes. Federal examiners register Black voters directly. Within months, hundreds of thousands of new voters are registered in states that had systematically excluded them. The 15th Amendment, a dead letter since the 1870s, is finally being enforced. Black voter registration in Mississippi goes from 6.7% to 59.8% within four years. The Reconstruction amendments are, at last, being made real.',
+charVoice:'John Lewis, who had been beaten on the Edmund Pettus Bridge, lived to see this moment: "It was an answer to what we did on that bridge."',
+decision:'What was the relationship between the nonviolent movement and the Voting Rights Act?',
+choices:[
+{text:'Congress passed the Voting Rights Act as part of LBJ\'s Great Society agenda, independent of movement pressure',correct:false,feedback:'LBJ addressed Congress just eight days after Bloody Sunday, explicitly using the movement\'s own language. The timing makes clear the Act was a direct response to Selma, not an independent legislative initiative.',std:'SS.912.A.7.8'},
+{text:'The Supreme Court, not Congress, was the primary force expanding voting rights during this period',correct:false,feedback:'The Supreme Court upheld the Voting Rights Act but did not create it. Congressional action driven by movement pressure was the mechanism. Courts alone could not have produced this result.',std:'SS.912.A.7.8'},
+{text:'Nonviolent direct action — especially Selma — created the political pressure that made Congressional inaction impossible',correct:true,feedback:'The strategy was deliberate: create visible confrontations, generate national coverage, build public pressure, and force federal action. Selma produced exactly this sequence, making further delay politically impossible.',std:'SS.912.A.7.8'},
+{text:'Voter registration drives alone, conducted quietly without public demonstrations or national media attention, were sufficient to create the political conditions for voting rights legislation',correct:false,feedback:'Registration drives had been ongoing for years with limited legislative results. It was the dramatic confrontation at Selma — and the national outrage it produced — that created the political moment for legislation.',std:'SS.912.A.7.8'}
+]}
+]},
+
+{id:'ch5',num:5,title:'Freedom Still Debated',icon:'🗽',era:'Late 20th Century to Present',period:'United States — 1972 to Present',
+intro:'The civil rights victories of the 1960s expand American freedom significantly. But the debate does not end. Women fight for equal protection. Privacy rights become contested. After 9/11, national security again presses against civil liberties. The Constitution does not change — but its meaning is constantly renegotiated. Freedom is not a destination. It is a permanent argument.',
+focus:'Women\'s rights; privacy and equal protection; post-9/11 civil liberties; SS.912.A.7.8, SS.912.C.1.4',
+outro:'The expansion of freedom is not linear — it continues to be contested in every generation.',
+cardEarned:'sandra_day_oconnor',
+changed:'Rights expanded for women, LGBTQ Americans, and others as courts reinterpreted equal protection.',
+continued:'The tension between national security and civil liberties continues. Economic rights remain unresolved.',
+newQuestion:'What does it mean that every generation must re-fight the same battles over the meaning of freedom?',
+beats:[
+{scene:'protest_modern',location:'Washington D.C.',date:'1972-1973',
+narrative:'Title IX (1972) prohibits sex discrimination in educational programs receiving federal funding. One year later, Roe v. Wade (1973) establishes that the right to privacy includes reproductive decisions. Women had been organizing for decades: for the vote (won in 1920), for equal pay, for equal access to education and professions. Each advance is built on the argument that the 14th Amendment\'s equal protection clause applies to sex as well as race.',
+charVoice:'Ruth Bader Ginsburg argued: "Women\'s rights are an essential part of the overall human rights agenda."',
+decision:'Why did extending constitutional rights to women require such sustained political and legal effort?',
+choices:[
+{text:'The 14th Amendment explicitly excluded women from its equal protection guarantees',correct:false,feedback:'The 14th Amendment\'s text does not mention sex. Courts interpreted it as applying primarily to race for most of the 20th century. The struggle was over judicial interpretation, not explicit exclusion in the text.',std:'SS.912.A.7.8'},
+{text:'Women did not begin organizing for political rights until the women\'s liberation movement of the 1960s',correct:false,feedback:'Women\'s organizing for political rights began before the Civil War with figures like Elizabeth Cady Stanton. The suffrage movement won the 19th Amendment in 1920 — four decades before the 1960s.',std:'SS.912.A.7.8'},
+{text:'Rights are not automatically extended — each expansion has required organized advocacy and legal pressure',correct:true,feedback:'The Constitution\'s broad language did not automatically include women. Each expansion of rights — to freed Black men, to women, to LGBTQ Americans — required organized advocacy, litigation, and political change to force reinterpretation.',std:'SS.912.A.7.8'},
+{text:'Congress was the only obstacle and the Supreme Court consistently ruled in favor of women\'s rights throughout this period',correct:false,feedback:'Both Congress and the courts were obstacles at various points. The Supreme Court did not consistently support women\'s rights claims until the 1970s, largely due to the legal strategy developed by Ruth Bader Ginsburg.',std:'SS.912.A.7.8'}
+]},
+{scene:'courtroom',location:'Washington D.C.',date:'2001-2006',
+narrative:'Nineteen hijackers kill nearly 3,000 Americans on September 11, 2001. Congress passes the PATRIOT Act within 45 days. The government wiretaps phone calls without warrants. Suspects are detained without charges at Guantanamo Bay. The Supreme Court, in Hamdi v. Rumsfeld (2004), rules that American citizens cannot be detained indefinitely without judicial review. The tension between security and liberty returns — as it always has in American history.',
+charVoice:'Justice Sandra Day O\'Connor wrote: "A state of war is not a blank check for the President when it comes to the rights of the Nation\'s citizens."',
+decision:'What did post-9/11 security measures reveal about the tension between liberty and security in American democracy?',
+choices:[
+{text:'That national security concerns permanently override civil liberties and the Constitution once the President formally declares a state of emergency exists',correct:false,feedback:'The Supreme Court imposed limits on executive authority in Hamdi v. Rumsfeld and Boumediene v. Bush. The limits are contested, but courts have not accepted the argument that emergency declarations suspend the Constitution.',std:'SS.912.C.1.4'},
+{text:'That the PATRIOT Act was passed over strong bipartisan opposition in Congress',correct:false,feedback:'The PATRIOT Act passed with overwhelming bipartisan support just 45 days after 9/11. Opposition came from a small minority in both parties.',std:'SS.912.C.1.4'},
+{text:'That post-9/11 measures were entirely different from previous wartime restrictions on civil liberties',correct:false,feedback:'The pattern closely mirrors earlier crises — the Espionage Act, Japanese internment, and McCarthyism all followed the same sequence of crisis, targeted restrictions, and eventual pushback from courts and public opinion.',std:'SS.912.C.1.4'},
+{text:'That restricting civil liberties during crisis is a recurring pattern, not a unique post-9/11 response',correct:true,feedback:'The Alien and Sedition Acts, Espionage Act, Japanese internment, McCarthyism, and post-9/11 surveillance all follow the same pattern. Crisis creates political pressure to restrict liberties, especially for targeted groups, raising the same question about necessity and proportion.',std:'SS.912.C.1.4'}
+]},
+{scene:'protest_modern',location:'United States',date:'Present',
+narrative:'The debate continues. Marriage equality is recognized by the Supreme Court in Obergefell v. Hodges (2015), extending rights to LGBTQ Americans. The Voting Rights Act is weakened by the Supreme Court in Shelby County v. Holder (2013). Criminal justice reform, immigration rights, reproductive rights, and voting access are all live political battles. The 14th Amendment remains — so does the argument about what it means.',
+charVoice:'Each generation inherits both the progress and the unfinished work of those who came before.',
+decision:'How should we understand the history of freedom and rights in the United States?',
+choices:[
+{text:'As a completed story in which constitutional rights now fully and equally protect all Americans',correct:false,feedback:'Ongoing debates over voting access, reproductive rights, immigration, and criminal justice demonstrate that the story is not complete. Legal rights and lived equality remain different things for many Americans.',std:'SS.912.C.1.4'},
+{text:'As a permanent failure, since the same inequalities have continued unchanged since the founding',correct:false,feedback:'This overstates continuity. Legal slavery ended. Women won the vote. Segregation was dismantled. LGBTQ Americans won marriage equality. Real change has occurred, even if it remains incomplete and contested.',std:'SS.912.C.1.4'},
+{text:'As an ongoing struggle — freedom has expanded, but never automatically or permanently',correct:true,feedback:'American freedom has expanded significantly since 1865, but never automatically or permanently. Each expansion required organized advocacy. Each right, once won, can be contested or narrowed. The pattern is progress through struggle.',std:'SS.912.C.1.4'},
+{text:'As primarily driven by the federal government voluntarily and generously extending rights to excluded groups at key moments throughout history, without significant external pressure from organized social movements',correct:false,feedback:'Rights were not given — they were demanded. The federal government has at various times protected, violated, and been forced to expand rights. Organized advocacy from excluded groups, not government generosity, has been the primary driver.',std:'SS.912.C.1.4'}
+]}
+]},
+];
+
+// ── EOC POOL ───────────────────────────────────────────
+var EOC_POOL=[
+{id:'e1',question:'Black Codes passed by Southern states immediately after the Civil War were primarily designed to',choices:[
+{text:'provide a legal framework for gradually transitioning formerly enslaved people to free labor by 1875',correct:false,feedback:'Black Codes were not a transition plan. They were designed to keep freedpeople in a condition as close to slavery as legally possible. Congress responded with the 14th Amendment specifically to override them.',std:'SS.912.A.3.1'},
+{text:'restore the labor conditions of slavery by controlling Black workers through state law',correct:true,feedback:'Black Codes used vagrancy laws, forced labor contracts, and movement restrictions to recreate slavery in everything but name. Their swift passage made clear that emancipation alone was not enough without federal enforcement.',std:'SS.912.A.3.1'},
+{text:'restrict the political rights of Confederate leaders who had supported secession until they swore loyalty oaths',correct:false,feedback:'Black Codes targeted formerly enslaved people, not Confederate leaders. Loyalty oaths for former Confederates were handled separately through Reconstruction readmission requirements.',std:'SS.912.A.3.1'},
+{text:'prevent formerly enslaved people from leaving the South and competing with Northern industrial workers for factory jobs',correct:false,feedback:'Black Codes focused on controlling labor within the South, not preventing Northern migration specifically. Their goal was to maintain a captive agricultural workforce for white landowners.',std:'SS.912.A.3.1'}
+],std:'SS.912.A.3.1'},
+{id:'e2',question:'Plessy v. Ferguson (1896) established the "separate but equal" doctrine. In practice, this ruling',choices:[
+{text:'required Southern states to equalize funding for Black and white schools within ten years or face federal penalties',correct:false,feedback:'No such requirement or enforcement mechanism existed. "Separate but equal" provided a legal standard with no real enforcement, allowing massive resource disparities to persist for nearly 60 years.',std:'SS.912.A.3.1'},
+{text:'allowed states to maintain racial segregation without providing genuinely equal resources or facilities',correct:true,feedback:'The doctrine provided constitutional cover for segregation while states maintained dramatically unequal facilities. It stood as settled law until Brown v. Board (1954) declared it unconstitutional.',std:'SS.912.A.3.1'},
+{text:'applied only to railroad cars and was never formally extended to schools or other public facilities by the Court',correct:false,feedback:'Plessy originated in a railroad case, but courts and legislatures rapidly extended the doctrine across virtually every area of public life, including schools, hospitals, and parks.',std:'SS.912.A.3.1'},
+{text:'was immediately challenged by Congress, which tried to pass new civil rights legislation to limit its scope',correct:false,feedback:'Congress did not mount a significant challenge to Plessy for nearly 60 years. The doctrine became settled law that shaped American life well into the mid-20th century.',std:'SS.912.A.3.1'}
+],std:'SS.912.A.3.1'},
+{id:'e3',question:'The Chinese Exclusion Act of 1882 was most significant in American legal history because it',choices:[
+{text:'was the first federal law to restrict immigration based on national origin, setting limits on all Asian immigration',correct:false,feedback:'The Act targeted Chinese immigrants specifically, not all Asian immigration. Japanese immigration, for instance, was not restricted until the Gentleman\'s Agreement of 1907.',std:'SS.912.A.3.2'},
+{text:'was struck down by the Supreme Court within a decade as a violation of the 14th Amendment\'s equal protection clause',correct:false,feedback:'The Supreme Court upheld the Chinese Exclusion Act in Chae Chan Ping v. United States (1889). It remained federal law for over 60 years, until 1943.',std:'SS.912.A.3.2'},
+{text:'showed that American freedom was racially defined — some groups were welcomed while others were explicitly excluded by law',correct:true,feedback:'The Act explicitly barred Chinese immigrants from citizenship based on race, revealing that American freedom was not universal. It set a precedent for race-based immigration restrictions that lasted into the 1940s.',std:'SS.912.A.3.2'},
+{text:'was pushed through Congress against President Arthur\'s strong opposition, showing growing nativist pressure on the executive branch',correct:false,feedback:'President Arthur signed the Chinese Exclusion Act without significant opposition. It had broad bipartisan political support across both Congress and the executive branch.',std:'SS.912.A.3.2'}
+],std:'SS.912.A.3.2'},
+{id:'e4',question:'The Espionage Act of 1917 and Sedition Act of 1918 were primarily used to punish Americans who',choices:[
+{text:'refused to purchase war bonds or contribute to the federal government\'s wartime fundraising campaigns',correct:false,feedback:'The Acts targeted speech and expression, not financial behavior. Refusing to buy war bonds was not a prosecutable offense under either law.',std:'SS.912.A.5.4'},
+{text:'publicly criticized the war, the military draft, or the federal government',correct:true,feedback:'The Acts criminalized political dissent. Eugene Debs received a 10-year sentence for a speech opposing the draft. The Supreme Court upheld these prosecutions in Schenck v. United States (1919).',std:'SS.912.A.5.4'},
+{text:'organized work stoppages in defense industries that were critical to the wartime production effort',correct:false,feedback:'Labor strikes were a separate concern handled through other mechanisms. The Espionage and Sedition Acts targeted speech and expression, not industrial action.',std:'SS.912.A.5.4'},
+{text:'attempted to avoid military service by leaving the United States for neutral countries like Canada or Mexico',correct:false,feedback:'Draft evasion was handled through the Selective Service system, not the Espionage or Sedition Acts. Those laws specifically targeted speech that criticized the war or the government.',std:'SS.912.A.5.4'}
+],std:'SS.912.A.5.4'},
+{id:'e5',question:'In Korematsu v. United States (1944), the Supreme Court upheld the forced relocation of Japanese Americans because',choices:[
+{text:'two-thirds of those relocated were foreign nationals who had not yet qualified for American citizenship',correct:false,feedback:'Two-thirds of those interned were American citizens by birth. The Court\'s ruling applied to citizens and non-citizens alike, which is part of what made it so legally significant.',std:'SS.912.A.6.4'},
+{text:'Congress had passed specific legislation authorizing the internment immediately after the Pearl Harbor attack',correct:false,feedback:'The internment was ordered through Executive Order 9066 signed by President Roosevelt, not through a specific act of Congress. The Court reviewed the executive order on its merits.',std:'SS.912.A.6.4'},
+{text:'military necessity justified the wartime relocation, overriding individual rights',correct:true,feedback:'The Court deferred to military judgment about the necessity of internment. This reasoning was later criticized as enabling racial discrimination under the cover of security. The decision was formally repudiated in 2018.',std:'SS.912.A.6.4'},
+{text:'evidence showed that Japanese Americans on the West Coast had provided intelligence to Japan before the attack',correct:false,feedback:'No Japanese American was ever convicted of espionage or sabotage. The internment was driven by racial fear and wartime hysteria, not by actual evidence of disloyalty.',std:'SS.912.A.6.4'}
+],std:'SS.912.A.6.4'},
+{id:'e6',question:'The Supreme Court\'s ruling in Brown v. Board of Education (1954) was based on the argument that',choices:[
+{text:'the federal government had the authority to override state education laws under the commerce clause of the Constitution',correct:false,feedback:'Brown was argued and decided on equal protection grounds under the 14th Amendment, not the commerce clause. The case focused on the constitutional harm of state-sponsored racial separation.',std:'SS.912.A.7.5'},
+{text:'state-imposed racial segregation in schools violated the 14th Amendment\'s equal protection clause',correct:true,feedback:'The Court ruled that racially segregated schools were inherently unequal because separation itself expressed racial inferiority and caused measurable harm. This became the constitutional foundation for all subsequent civil rights law.',std:'SS.912.A.7.5'},
+{text:'the 13th Amendment\'s abolition of slavery prohibited all racial distinctions in government-funded institutions',correct:false,feedback:'The Court relied on the 14th Amendment\'s equal protection clause, not the 13th. The 13th Amendment abolishes slavery but does not directly address segregation in public institutions.',std:'SS.912.A.7.5'},
+{text:'Congress had passed the Civil Rights Act of 1950, which required desegregation of all public schools by 1955',correct:false,feedback:'No such law existed. Brown came entirely from the Supreme Court\'s reinterpretation of the Constitution. Federal civil rights legislation did not come until the 1960s.',std:'SS.912.A.7.5'}
+],std:'SS.912.A.7.5'},
+{id:'e7',question:'The Montgomery Bus Boycott succeeded primarily because it',choices:[
+{text:'won a Supreme Court ruling before the boycott began, giving organizers legal authority to desegregate the buses',correct:false,feedback:'The legal ruling, Browder v. Gayle, came during the boycott, not before it. The boycott\'s economic pressure ran alongside the legal strategy rather than depending on a prior court victory.',std:'SS.912.A.7.5'},
+{text:'pressured President Eisenhower to issue a federal executive order ending segregation on all public transportation',correct:false,feedback:'The boycott targeted Montgomery\'s local bus system through economic pressure. The desegregation that followed came from a federal court ruling, not a presidential executive order.',std:'SS.912.A.7.5'},
+{text:'combined economic pressure on the bus system with a legal challenge, proving Black consumers had real power',correct:true,feedback:'By keeping Black passengers off the buses, organizers reduced revenue significantly while Browder v. Gayle challenged bus segregation in court. The combination set the strategic model for campaigns that followed.',std:'SS.912.A.7.5'},
+{text:'attracted national media coverage that convinced white Montgomery residents to voluntarily integrate the buses',correct:false,feedback:'White residents of Montgomery largely opposed integration throughout the boycott. Desegregation came through legal pressure and economic cost, not through persuading white Montgomarians to change their views.',std:'SS.912.A.7.5'}
+],std:'SS.912.A.7.5'},
+{id:'e8',question:'In his "Letter from Birmingham Jail," Dr. King argued that',choices:[
+{text:'the federal government had a constitutional obligation to impose desegregation by force in Birmingham immediately',correct:false,feedback:'King appealed to the moral conscience of his audience, not to federal military force. He defended the right of activists to create nonviolent tension that forced negotiation — not a call for federal intervention.',std:'SS.912.A.7.7'},
+{text:'white moderates who preferred order over justice slowed the movement more than open opponents did',correct:true,feedback:'King argued that those urging patience were complicit in injustice — that "wait" almost always meant "never." The Letter defends nonviolent direct action against those who accepted civil rights as a goal but rejected the method of demanding it now.',std:'SS.912.A.7.7'},
+{text:'nonviolent protest had proven ineffective and the movement should consider more confrontational direct action',correct:false,feedback:'The Letter is one of the most powerful defenses of nonviolent direct action ever written. King explicitly argued that nonviolent confrontation was both morally right and strategically necessary.',std:'SS.912.A.7.7'},
+{text:'Birmingham\'s campaign had gone too far and risked turning national public opinion against the Civil Rights Movement',correct:false,feedback:'King wrote the Letter to defend the Birmingham campaign, not to criticize it. He argued the campaign was justified, well-timed, and morally necessary — a rebuttal to the clergymen who urged him to slow down.',std:'SS.912.A.7.7'}
+],std:'SS.912.A.7.7'},
+{id:'e9',question:'Which of the following was NOT included in the Civil Rights Act of 1964?',choices:[
+{text:'A ban on discrimination in public accommodations such as hotels and restaurants',correct:false,feedback:'This was Title II of the Civil Rights Act — one of its most contested and significant provisions. It was upheld immediately in Heart of Atlanta Motel v. United States (1964).',std:'SS.912.A.7.8'},
+{text:'A federal guarantee of voting rights and the elimination of literacy tests across all states',correct:true,feedback:'Voting rights were addressed separately in the Voting Rights Act of 1965. The Civil Rights Act focused on public accommodations and employment discrimination, not voting.',std:'SS.912.A.7.8'},
+{text:'A ban on employment discrimination based on race, color, religion, sex, or national origin',correct:false,feedback:'This was Title VII. The inclusion of "sex" was added by Southern opponents hoping to sink the bill — but it passed anyway and remains a cornerstone of American employment law.',std:'SS.912.A.7.8'},
+{text:'Creation of the Equal Employment Opportunity Commission to investigate workplace discrimination claims',correct:false,feedback:'The EEOC was established by Title VII of the Civil Rights Act of 1964 and remains an active federal agency today.',std:'SS.912.A.7.8'}
+],std:'SS.912.A.7.8'},
+{id:'e10',question:'The Section 5 preclearance requirement of the Voting Rights Act of 1965 required certain states to',choices:[
+{text:'submit new voter registration lists to the federal government for approval before each election cycle',correct:false,feedback:'Preclearance applied to changes in voting laws and procedures, not to voter registration lists specifically. It was about preventing new discriminatory rules before they took effect.',std:'SS.912.A.7.8'},
+{text:'get federal approval before making any changes to their voting laws or election procedures',correct:true,feedback:'Preclearance required jurisdictions with a history of voting discrimination to have any changes approved by the Justice Department before taking effect. This provision was weakened by Shelby County v. Holder (2013).',std:'SS.912.A.7.8'},
+{text:'hold new elections in districts where Black voter registration had previously fallen below 10 percent',correct:false,feedback:'The Act did not mandate new elections in low-registration areas. It focused on removing barriers to future participation and preventing new discriminatory laws from taking effect.',std:'SS.912.A.7.8'},
+{text:'replace all existing voting laws with standardized federal procedures designed by the Justice Department',correct:false,feedback:'Preclearance required states to clear changes through the Justice Department, but it did not replace state voting laws with federal ones. States retained the authority to set procedures within constitutional limits.',std:'SS.912.A.7.8'}
+],std:'SS.912.A.7.8'},
+{id:'e11',question:'Title IX (1972) prohibited sex discrimination in schools receiving federal funding. This law is an example of how rights have expanded because it',choices:[
+{text:'was the first law in American history to recognize that women were entitled to any legal protections at all',correct:false,feedback:'Women had significant legal protections long before 1972, including the 19th Amendment (1920) guaranteeing voting rights. Title IX expanded rights in a specific area — education — not for the first time.',std:'SS.912.A.7.8'},
+{text:'was passed by the Supreme Court after women\'s groups filed a constitutional challenge under the 14th Amendment',correct:false,feedback:'Title IX was a statute passed by Congress, not a Supreme Court ruling. It used Congress\'s power over federal funding, not a constitutional case, to prohibit sex discrimination in education.',std:'SS.912.A.7.8'},
+{text:'came directly from organized advocacy that pressured Congress to act, not from government initiative',correct:true,feedback:'Title IX followed the same pattern as the 19th Amendment, Brown v. Board, and the Civil Rights Act: rights expanded through sustained organized pressure, not because government extended them voluntarily.',std:'SS.912.A.7.8'},
+{text:'replaced a series of court decisions from the 1960s that had already established equal educational access for women',correct:false,feedback:'No such court decisions had established broad educational equity for women before 1972. Title IX created new legal ground rather than codifying existing judicial rulings.',std:'SS.912.A.7.8'}
+],std:'SS.912.A.7.8'},
+{id:'e12',question:'The Supreme Court ruled in Hamdi v. Rumsfeld (2004) that an American citizen detained as an enemy combatant',choices:[
+{text:'must be released immediately if Congress has not passed legislation specifically authorizing that type of detention',correct:false,feedback:'The Court did not rule that Hamdi must be released. It ruled that he had the right to contest his detention before a neutral decision-maker — a due process right, not an automatic release order.',std:'SS.912.C.1.4'},
+{text:'can be held indefinitely without any legal review as long as the President declares a national security emergency',correct:false,feedback:'This is exactly the position the Court rejected. O\'Connor wrote that "a state of war is not a blank check for the President" when it comes to citizens\' due process rights.',std:'SS.912.C.1.4'},
+{text:'has the right to challenge his detention before a neutral decision-maker, even during wartime',correct:true,feedback:'O\'Connor\'s opinion held that due process rights apply to American citizens even during wartime. The Constitution does not suspend itself in emergencies, and citizens must be able to contest their status.',std:'SS.912.C.1.4'},
+{text:'is entitled to a full civilian jury trial before being transferred to military custody for any purpose',correct:false,feedback:'The Court did not require a civilian jury trial. It established a more limited right: the opportunity to contest the factual basis for detention before some form of neutral decision-maker.',std:'SS.912.C.1.4'}
+],std:'SS.912.C.1.4'},
+{id:'e13',question:'Which statement best describes the overall pattern of how rights have expanded in the United States?',choices:[
+{text:'Rights have generally expanded in a straight line as each generation of Americans became more tolerant and democratic',correct:false,feedback:'Rights expansion has not been linear. It has required organized advocacy, faced violent resistance, and been reversed at various points. The end of Reconstruction and the Shelby County decision both show rights can be narrowed.',std:'SS.912.C.1.4'},
+{text:'Rights have expanded mainly through Supreme Court decisions that reinterpreted the Constitution without pressure from organized groups',correct:false,feedback:'Courts have generally followed rather than led rights expansions. Brown v. Board came after decades of NAACP litigation. The Voting Rights Act required Selma. Organized movements shaped the conditions for legal change.',std:'SS.912.C.1.4'},
+{text:'Rights have expanded through organized struggle and legislation, but gains have always been contested and can be reversed',correct:true,feedback:'Rights expand through sustained advocacy, not automatically. Each expansion has faced resistance and remained subject to narrowing. The weakening of the Voting Rights Act by Shelby County v. Holder (2013) is a recent example.',std:'SS.912.C.1.4'},
+{text:'Rights expanded significantly during the 19th century but stalled after Reconstruction and have changed little since then',correct:false,feedback:'Major expansions occurred across the 20th century: women\'s suffrage in 1920, desegregation in the 1950s-60s, voting rights in 1965, marriage equality in 2015. Framing rights as frozen after Reconstruction misreads the arc of history.',std:'SS.912.C.1.4'}
+],std:'SS.912.C.1.4'},
+{id:'e14',question:'Ida B. Wells\'s anti-lynching campaign in the 1890s was most significant because it',choices:[
+{text:'built a national coalition of Black and white Southerners that pressured state governments to prosecute lynchers',correct:false,feedback:'Southern whites largely refused to prosecute lynchers regardless of evidence. Wells\'s campaign exposed this failure rather than producing a coalition that changed it. Her success was in revealing the system, not reforming it through Southern cooperation.',std:'SS.912.A.3.2'},
+{text:'resulted in Congress passing federal anti-lynching legislation within a decade of her investigations',correct:false,feedback:'No federal anti-lynching law passed during Wells\'s lifetime. Congress repeatedly blocked such legislation, primarily through Senate filibusters. A federal anti-lynching law was not signed until 2022.',std:'SS.912.A.3.2'},
+{text:'used documented evidence to expose lynching as racial and economic terrorism rather than a response to crime',correct:true,feedback:'Wells showed that the "protecting white womanhood" justification was largely false — economic competition was often the real motive. This stripped lynching of its moral cover by proving it was a system of racial terror.',std:'SS.912.A.3.2'},
+{text:'convinced Northern newspapers and politicians to support a federal constitutional amendment banning mob violence',correct:false,feedback:'Northern newspapers did publish Wells\'s findings, but they did not produce a constitutional amendment. Her work raised awareness and built NAACP-era advocacy, but federal legal change took generations longer.',std:'SS.912.A.3.2'}
+],std:'SS.912.A.3.2'},
+{id:'e15',question:'Which of the following best describes how the meaning of freedom has changed in American history from Reconstruction to the present?',choices:[
+{text:'Freedom was fully guaranteed for all Americans by the 14th and 15th Amendments in 1868 and 1870',correct:false,feedback:'The Reconstruction amendments promised freedom and equality, but Black Codes, Jim Crow, disenfranchisement, and Supreme Court decisions stripped those promises of meaning for nearly a century. Legal text and lived reality were different things.',std:'SS.912.C.1.4'},
+{text:'The meaning of freedom has stayed essentially the same since the founding, but enforcement has gradually improved',correct:false,feedback:'The meaning of freedom has changed substantially. The Constitution once protected slavery. It now prohibits racial discrimination. These are not the same meaning applied more consistently — the definition itself transformed.',std:'SS.912.C.1.4'},
+{text:'Freedom has expanded to include more Americans, but each gain required organized struggle and remains open to challenge',correct:true,feedback:'The definition of freedom has expanded enormously since 1865, but never automatically or permanently. Each gain — emancipation, suffrage, desegregation, marriage equality — required organized advocacy and faced resistance. Rights once won can be narrowed.',std:'SS.912.C.1.4'},
+{text:'Freedom expanded steadily for all Americans after 1865 until reaching its final, complete form with the Civil Rights Act of 1964',correct:false,feedback:'The Reconstruction amendments promised freedom and equality, but Black Codes, Jim Crow, disenfranchisement, and Supreme Court decisions stripped those promises of meaning for nearly a century. Legal text and lived reality were different things.',std:'SS.912.C.1.4'},
+{text:'The meaning of freedom has stayed essentially the same since the founding, but enforcement has gradually improved',correct:false,feedback:'The meaning of freedom has changed substantially. The Constitution once protected slavery. It now prohibits racial discrimination. These are not the same meaning applied more consistently — the definition itself transformed.',std:'SS.912.C.1.4'},
+{text:'Freedom expanded steadily for all Americans after 1865 until reaching its final, complete form with the Civil Rights Act of 1964',correct:false,feedback:'The years between 1865 and 1965 included the end of Reconstruction, the rise of Jim Crow, and mass disenfranchisement — the opposite of steady expansion. And debates over voting rights, reproductive freedom, and immigration show 1964 was not a final endpoint.',std:'SS.912.C.1.4'}
+],std:'SS.912.C.1.4'}
+];
+
+function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+// ── SAVE/LOAD ──────────────────────────────────────────
+function newGame(name,teacher,period,avatarId){
+  return{name:name,teacher:teacher,period:period,avatarId:avatarId||'scholar_f',
+    score:0,chaptersCompleted:[],badgesEarned:[],cardsEarned:[],
+    correctAnswers:0,totalAnswers:0,
+    eocCompleted:false,eocScore:0,eocBestScore15:0,eocBestAccuracy:0,
+    createdAt:new Date().toISOString()};
+}
+function saveGame(){if(!G)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify(G));}catch(e){}}
+function loadGame(){try{var s=localStorage.getItem(SAVE_KEY);if(s){G=JSON.parse(s);normalizeG();return true;}}catch(e){}return false;}
+function normalizeG(){if(!G)return;if(!Array.isArray(G.chaptersCompleted))G.chaptersCompleted=[];if(!Array.isArray(G.badgesEarned))G.badgesEarned=[];if(!Array.isArray(G.cardsEarned))G.cardsEarned=[];if(!G.score)G.score=0;if(!G.correctAnswers)G.correctAnswers=0;if(!G.totalAnswers)G.totalAnswers=0;}
+function clearSave(){localStorage.removeItem(SAVE_KEY);}
+
+// ── SCORING ────────────────────────────────────────────
+function getStoryScore15(){if(!G)return 0;var total=0;CHAPTERS.forEach(function(ch){total+=ch.beats?ch.beats.length:0;});if(!total)return 0;return Math.min(15,Math.round(((G.correctAnswers||0)/total)*15));}
+function getEOCScore15(){if(!G||!G.eocCompleted)return 0;return G.eocBestScore15||0;}
+function calcEOCLevel(score15){
+  if(score15>=12)return{level:5,label:'Level 5',color:'var(--green2)',desc:'Outstanding command of freedom and rights across time.'};
+  if(score15>=10)return{level:4,label:'Level 4',color:'var(--liberty3)',desc:'Strong understanding of continuity and change in American rights.'};
+  if(score15>=8) return{level:3,label:'Level 3',color:'var(--civic2)',desc:'Solid grasp of the key themes and patterns.'};
+  if(score15>=6) return{level:2,label:'Level 2',color:'var(--parchment2)',desc:'Basic understanding established. Review the chapters.'};
+  return{level:1,label:'Level 1',color:'var(--red2)',desc:'Review all chapters and try the EOC again.'};
+}
+
+// ── NOTIFY ─────────────────────────────────────────────
+function notify(msg,color){
+  var n=document.getElementById('notify-toast');
+  if(!n){n=document.createElement('div');n.id='notify-toast';document.body.appendChild(n);}
+  var c=color==='red'?'var(--red2)':color==='green'?'var(--green2)':'var(--liberty)';
+  n.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:10px 22px;font-family:var(--bebas);font-size:13px;letter-spacing:2px;z-index:9999;transition:opacity 0.4s;pointer-events:none;background:var(--bg2);border:1px solid '+c+';color:'+c+';opacity:1';
+  n.textContent=msg;clearTimeout(n._t);n._t=setTimeout(function(){n.style.opacity='0';},2200);
+}
+
+// ── SCREENS ────────────────────────────────────────────
+function showScreen(id){
+  var screens=['title-screen','hub-screen','chapter-intro','story-screen','eoc-screen'];
+  screens.forEach(function(s){var el=document.getElementById(s);if(el){el.style.display='none';el.classList.remove('active');}});
+  var target=document.getElementById(id);
+  if(target){target.style.display='block';target.classList.add('active');}
+}
+function setActiveNav(idx){document.querySelectorAll('.bn-btn').forEach(function(b,i){b.classList.toggle('active',i===idx);});}
+
+// ── SHELL ──────────────────────────────────────────────
+function getShellProfile(){try{var raw=localStorage.getItem(SHELL_KEY);if(!raw)return null;var p=JSON.parse(raw);if(p&&p.name&&p.name!=='Guest'&&p.setupDone)return p;}catch(e){}return null;}
+function notifyShellComplete(){try{var raw=localStorage.getItem(SHELL_KEY);if(!raw)return;var s=JSON.parse(raw);if(!s.unitsCompleted)s.unitsCompleted=[];if(!s.unitsCompleted.includes(SHELL_UNIT_ID))s.unitsCompleted.push(SHELL_UNIT_ID);localStorage.setItem(SHELL_KEY,JSON.stringify(s));}catch(e){}}
+function returnToShell(){window.location.href='https://olsonjoshua-code.github.io/american-chronicles/';}
+
+// ── LOGIN FLOW ─────────────────────────────────────────
+function showLoginGate(){
+  var sp=getShellProfile();var saved=loadGame();
+  if(saved&&G&&G.name){showWelcomeGate(G,sp||null);return;}
+  if(sp){showWelcomeGate(null,sp);return;}
+  document.getElementById('code-gate-overlay').style.display='flex';goToStep(1);
+}
+function showWelcomeGate(savedGame,shellProfile){
+  var wg=document.getElementById('welcome-gate');
+  var name=savedGame?savedGame.name:(shellProfile?shellProfile.name:'');
+  var period=savedGame?savedGame.period:(shellProfile?shellProfile.period:'');
+  var avatarId=savedGame?savedGame.avatarId:(shellProfile?shellProfile.avatar||'scholar_f':'scholar_f');
+  document.getElementById('wg-avatar').innerHTML=getPortraitSVG(avatarId,60);
+  document.getElementById('wg-name').textContent=name||'Unknown';
+  document.getElementById('wg-detail').textContent=period&&period!=='0'?'Mr. Olson \u2014 Period '+period:'Guest / Other';
+  var progress='No progress saved yet';
+  if(savedGame&&savedGame.chaptersCompleted){
+    var ch=savedGame.chaptersCompleted.length;
+    progress=ch>0?ch+' of '+CHAPTERS.length+' chapters done \u2014 '+(savedGame.score||0).toLocaleString()+' pts':'Starting fresh';
+  }
+  document.getElementById('wg-progress').textContent=progress;
+  wg._savedGame=savedGame;wg._shellProfile=shellProfile;wg.style.display='flex';
+}
+function welcomeContinue(){
+  var wg=document.getElementById('welcome-gate');var saved=wg._savedGame;var sp=wg._shellProfile;
+  wg.style.display='none';
+  if(saved){G=saved;if(sp&&sp.avatar)G.avatarId=sp.avatar||G.avatarId;saveGame();}
+  else if(sp){G=newGame(sp.name,'olson',sp.period||'0',sp.avatar||'scholar_f');G.shellLinked=true;saveGame();}
+  normalizeG();afterLogin();
+}
+function welcomeNewPlayer(){document.getElementById('welcome-gate').style.display='none';clearSave();G=null;document.getElementById('code-gate-overlay').style.display='flex';goToStep(1);}
+function goToStep(n){
+  [1,2,3].forEach(function(i){document.getElementById('login-step-'+i).style.display=i===n?'block':'none';});
+}
+function selectTeacher(t){
+  _loginTeacher=t;
+  if(t==='guest'){_loginPeriod='0';goToStep(3);document.getElementById('login-step3-label').textContent="Enter your name. You'll appear on the Overall leaderboard only.";return;}
+  var teacher=TEACHERS[t];
+  var el=document.getElementById('period-buttons');
+  if(el&&teacher)el.innerHTML=teacher.periods.map(function(p){return '<button class="btn sm" onclick="selectPeriod(\''+p+'\')">'+p+'</button>';}).join('');
+  goToStep(2);
+}
+function selectPeriod(p){_loginPeriod=p;goToStep(3);document.getElementById('login-step3-label').textContent='Mr. Olson \u2014 Period '+p+'. Enter your name:';}
+function submitClassCode(){
+  var inp=document.getElementById('class-code-input');var err=document.getElementById('code-error');
+  var name=(inp&&inp.value.trim())||'';
+  if(!name){if(err)err.textContent='Please enter your name.';return;}
+  G=newGame(name,_loginTeacher||'guest',_loginPeriod||'0','scholar_f');
+  saveGame();document.getElementById('code-gate-overlay').style.display='none';
+  if(inp)inp.value='';afterLogin();
+}
+function afterLogin(){
+  updateHUD();
+  document.getElementById('game-header').style.display='block';
+  document.getElementById('bottom-nav').style.display='flex';
+  var sp=getShellProfile();
+  if(sp||(G&&G.shellLinked)){var rb=document.getElementById('shell-return-btn');if(rb)rb.style.display='block';}
+  renderHub();showScreen('hub-screen');setActiveNav(0);
+}
+function showTeacherDashboard(){
+  var pw=prompt('Enter teacher code:');if(!pw)return;
+  var valid=false;for(var k in TEACHERS){if(pw.toUpperCase()===TEACHERS[k].teacherCode.toUpperCase()){valid=true;break;}}
+  if(!valid){alert('Incorrect code.');return;}
+  document.getElementById('teacher-overlay').classList.add('show');loadTeacherData();
+}
+var _lbDeleteUnlocked=false;
+async function unlockLBDelete(){
+  var pw=prompt('Enter teacher code to unlock delete controls:');if(!pw)return;
+  var valid=false;for(var k in TEACHERS){if(pw.toUpperCase()===TEACHERS[k].teacherCode.toUpperCase()){valid=true;break;}}
+  if(!valid){notify('Incorrect code','red');return;}
+  _lbDeleteUnlocked=true;
+  var btn=document.getElementById('lb-teacher-unlock');
+  if(btn){btn.textContent='Unlocked';btn.style.borderColor='var(--liberty)';btn.style.color='var(--liberty)';}
+  notify('Delete controls unlocked','green');renderLeaderboard(_lbAllData);
+}
+async function lbDeleteEntry(name,period){
+  if(!confirm('Remove "'+name+'" from the leaderboard?'))return;
+  try{await fetch(AC_SUPA_URL+'/rest/v1/ac_results?name=eq.'+encodeURIComponent(name)+'&period=eq.'+encodeURIComponent(period)+'&unit_id=eq.'+SHELL_UNIT_ID,{method:'DELETE',headers:AC_HEADERS});notify('Removed','green');await loadLeaderboard();}
+  catch(e){notify('Error removing entry','red');}
+}
+function updateHUD(){
+  if(!G)return;
+  document.getElementById('hud-avatar-svg').innerHTML=getPortraitSVG(G.avatarId||'scholar_f',44);
+  document.getElementById('hud-name').textContent=G.name||'—';
+  document.getElementById('hud-rank').textContent=getRank(G.score||0);
+  var pct=Math.round(((G.score||0)/10000)*100);
+  document.getElementById('hud-momentum-fill').style.width=Math.min(pct,100)+'%';
+  document.getElementById('hud-score').textContent=(G.score||0).toLocaleString();
+  document.getElementById('hud-cards').textContent=(G.cardsEarned||[]).length;
+}
+
+// ── HUB ────────────────────────────────────────────────
+function renderHub(){
+  if(!G)return;
+  var bannerEl=document.getElementById('hub-banner-container');
+  if(bannerEl)bannerEl.innerHTML='<div class="hub-banner"><div class="hub-avatar" id="hub-av"></div><div style="flex:1"><div class="hub-player-name">'+G.name+'</div><div class="hub-player-rank">'+getRank(G.score||0)+(G.period&&G.period!=='0'?' \u00b7 Period '+G.period:'')+'</div><div class="hub-momentum-wrap"><div class="hub-momentum-fill" style="width:'+Math.min(Math.round(((G.score||0)/10000)*100),100)+'%"></div></div></div><div style="text-align:right"><div style="font-family:var(--bebas);font-size:22px;color:var(--liberty)">'+(G.score||0).toLocaleString()+'</div><div style="font-family:var(--dm);font-size:8px;color:var(--text3);letter-spacing:1px">POINTS</div></div></div>';
+  var avEl=document.getElementById('hub-av');if(avEl)avEl.innerHTML=getPortraitSVG(G.avatarId||'scholar_f',60);
+  var chapEl=document.getElementById('hub-chapters');
+  if(chapEl){
+    var chapterCards=CHAPTERS.map(function(ch,idx){
+      var done=G.chaptersCompleted.includes(ch.id);
+      var locked=idx>0&&!G.chaptersCompleted.includes(CHAPTERS[idx-1].id);
+      var st=done?'completed':locked?'locked':'available';
+      return '<div class="chapter-card '+st+'" onclick="'+(locked?'':'openChapterIntro('+idx+')')+'"><div class="chapter-card-header"><div class="chapter-icon">'+ch.icon+'</div><div class="chapter-info"><div class="chapter-number">Chapter '+ch.num+' \u00b7 '+ch.era+'</div><div class="chapter-name">'+ch.title+'</div><div class="chapter-era">'+ch.period+'</div></div><div class="chapter-status '+st+'">'+(done?'\u2713 Complete':locked?'Locked':'Available')+'</div></div><div class="chapter-progress-bar"><div class="chapter-progress-fill" style="width:'+(done?100:0)+'%"></div></div></div>';
+    });
+    // EOC as Chapter 6
+    var allChDone=G.chaptersCompleted.length>=CHAPTERS.length;
+    var eocDone=G.eocCompleted;
+    var eocLocked=!allChDone;
+    var eocSt=eocDone?'completed':eocLocked?'locked':'available';
+    var eocCard='<div class="chapter-card '+eocSt+'" style="'+(eocSt==='available'?'border-color:var(--gold);background:linear-gradient(135deg,rgba(212,160,23,0.06),var(--bg2));':'')+'" onclick="'+(eocLocked?'':'openEOCIntro()')+'"><div class="chapter-card-header"><div class="chapter-icon">📋</div><div class="chapter-info"><div class="chapter-number">Chapter 6 \u00b7 Cumulative Review</div><div class="chapter-name">EOC Practice: Freedom &amp; Rights</div><div class="chapter-era">15 Questions \u00b7 All Eras</div></div><div class="chapter-status '+eocSt+'">'+(eocDone?'\u2713 Complete':eocLocked?'Locked':'Available')+'</div></div><div class="chapter-progress-bar"><div class="chapter-progress-fill" style="width:'+(eocDone?100:0)+'%;background:var(--gold2)"></div></div></div>';
+    chapEl.innerHTML=chapterCards.join('')+eocCard;
+  }
+  var badgesEl=document.getElementById('hub-badges');
+  if(badgesEl)badgesEl.innerHTML=BADGES.map(function(b){var e=G.badgesEarned.includes(b.id);return '<div class="badge-pill'+(e?' earned':'')+'"><span class="badge-icon">'+b.icon+'</span>'+b.label+'</div>';}).join('');
+  updateHUD();
+}
+
+// ── CHAPTER INTRO ──────────────────────────────────────
+function openChapterIntro(idx){
+  currentChapterIdx=idx;var ch=CHAPTERS[idx];
+  var el=document.getElementById('chapter-intro-content');
+  if(el){el.innerHTML='<div style="text-align:center;margin-bottom:16px"><div style="font-size:48px;margin-bottom:8px">'+ch.icon+'</div><div class="era-badge" style="color:var(--liberty);border-color:var(--liberty2)">'+ch.era.toUpperCase()+'</div><div style="font-family:var(--bebas);font-size:11px;color:var(--text3);letter-spacing:4px;margin-bottom:6px">CHAPTER '+ch.num+' OF '+CHAPTERS.length+'</div><div style="font-family:var(--playfair);font-size:22px;color:var(--cream);font-style:italic;margin-bottom:8px">'+ch.title+'</div></div><div style="font-family:var(--crimson);font-size:15px;color:var(--text);line-height:1.7;margin-bottom:20px">'+ch.intro+'</div><div style="background:var(--bg2);border:1px solid var(--border2);padding:12px;margin-bottom:16px"><div style="font-family:var(--dm);font-size:9px;color:var(--text3);letter-spacing:2px;margin-bottom:4px">FOCUS</div><div style="font-family:var(--dm);font-size:10px;color:var(--text2)">'+ch.focus+'</div></div>';}
+  showScreen('chapter-intro');
+}
+function startChapterPlay(){
+  currentBeatIdx=0;chapterScore=0;chapterCorrect=0;chapterTotal=0;answeredCurrent=false;chapterLog=[];
+  var ch=CHAPTERS[currentChapterIdx];chapterTotal=ch.beats?ch.beats.length:0;
+  renderBeat();showScreen('story-screen');
+}
+
+// ── STORY ENGINE ───────────────────────────────────────
+function renderBeat(){
+  var ch=CHAPTERS[currentChapterIdx];var beat=ch.beats[currentBeatIdx];if(!beat)return;
+  answeredCurrent=false;
+  var pct=Math.round((currentBeatIdx/ch.beats.length)*100);
+  document.getElementById('story-progress-fill').style.width=pct+'%';
+  document.getElementById('story-beat-num').textContent='BEAT '+(currentBeatIdx+1)+' OF '+ch.beats.length;
+  var sceneEl=document.getElementById('story-scene-container');if(sceneEl)sceneEl.innerHTML=SCENES[beat.scene]?('<div class="story-scene">'+SCENES[beat.scene]+'</div>'):'';
+  var textEl=document.getElementById('story-text-container');
+  if(textEl){
+    var loc=beat.location?'<div style="font-family:var(--dm);font-size:9px;color:var(--text3);letter-spacing:2px;margin-bottom:4px">\uD83D\uDCCD '+beat.location+(beat.date?' \u00b7 '+beat.date:'')+'</div>':'';
+    var voice=beat.charVoice?'<div style="font-family:var(--crimson);font-size:14px;color:var(--liberty3);font-style:italic;line-height:1.6;margin-bottom:10px;padding:10px 14px;border-left:2px solid var(--liberty2);background:rgba(74,159,212,0.04)">'+beat.charVoice+'</div>':'';
+    textEl.innerHTML='<div class="story-text-panel">'+loc+'<div class="story-narrative">'+beat.narrative+'</div>'+voice+'</div>';
+  }
+  var dh=document.getElementById('story-decision-header');
+  if(dh)dh.innerHTML='<div style="font-family:var(--bebas);font-size:11px;color:var(--text3);letter-spacing:3px;margin-bottom:8px">THE QUESTION</div><div style="font-family:var(--playfair);font-size:15px;color:var(--cream);font-style:italic;line-height:1.5">'+beat.decision+'</div>';
+  var choicesEl=document.getElementById('story-choices');
+  if(choicesEl)choicesEl.innerHTML=beat.choices.map(function(c,i){return '<button class="choice-btn" id="choice-'+i+'" onclick="selectChoice('+i+')" style="font-family:var(--crimson);font-size:15px;color:var(--text);line-height:1.5"><span style="font-family:var(--dm);font-size:9px;color:var(--text3);margin-right:8px">'+(String.fromCharCode(65+i))+'.</span>'+c.text+'</button>';}).join('');
+  var fp=document.getElementById('feedback-panel');if(fp){fp.className='feedback-panel';fp.innerHTML='<div class="feedback-verdict" id="feedback-verdict"></div><div class="feedback-text" id="feedback-text"></div><div class="feedback-standard" id="feedback-standard"></div>';}
+  var nb=document.getElementById('story-next-btn');if(nb){nb.style.display='none';nb.onclick=nextBeat;}
+  var mom=document.getElementById('story-momentum');if(mom)mom.innerHTML='';
+}
+function selectChoice(idx){
+  if(answeredCurrent)return;answeredCurrent=true;
+  var ch=CHAPTERS[currentChapterIdx];var beat=ch.beats[currentBeatIdx];
+  var choice=beat.choices[idx];var correct=choice.correct;
+  G.totalAnswers=(G.totalAnswers||0)+1;
+  beat.choices.forEach(function(c,i){
+    var btn=document.getElementById('choice-'+i);if(!btn)return;
+    if(i===idx)btn.className='choice-btn '+(correct?'correct':'incorrect');
+    else if(c.correct)btn.className='choice-btn correct';
+    btn.onclick=null;
+  });
+  if(correct){
+    chapterCorrect++;G.correctAnswers=(G.correctAnswers||0)+1;
+    var pts=500;chapterScore+=pts;G.score=(G.score||0)+pts;
+    notify('+500 pts','green');
+  } else {
+    notify('Incorrect \u2014 review the feedback','red');
+  }
+  chapterLog.push({beatIdx:currentBeatIdx,correct:correct,choiceText:choice.text});
+  var fp=document.getElementById('feedback-panel');
+  fp.className='feedback-panel show '+(correct?'correct':'incorrect');
+  var vEl=document.getElementById('feedback-verdict');
+  vEl.className='feedback-verdict '+(correct?'correct':'incorrect');
+  vEl.textContent=correct?'CORRECT \u2014 Good Thinking':'INCORRECT \u2014 Here\'s Why';
+  document.getElementById('feedback-text').textContent=choice.feedback;
+  document.getElementById('feedback-standard').innerHTML='<span class="std-tag">'+(choice.std||'SS.912')+'</span> Standards alignment';
+  document.getElementById('story-next-btn').style.display='block';
+  fp.scrollIntoView({behavior:'smooth',block:'nearest'});
+  var mom=document.getElementById('story-momentum');if(mom)mom.innerHTML='';
+  saveGame();checkBadges();updateHUD();
+}
+function nextBeat(){if(!answeredCurrent)return;answeredCurrent=false;advanceBeat();}
+function advanceBeat(){var ch=CHAPTERS[currentChapterIdx];currentBeatIdx++;if(currentBeatIdx>=ch.beats.length){finishChapter();}else{renderBeat();}}
+function finishChapter(){
+  var ch=CHAPTERS[currentChapterIdx];
+  if(!G.chaptersCompleted.includes(ch.id))G.chaptersCompleted.push(ch.id);
+  var cardKey=ch.cardEarned;
+  if(cardKey&&!G.cardsEarned.includes(cardKey))G.cardsEarned.push(cardKey);
+  checkBadges();saveGame();pushACResult();showChapterComplete();
+}
+function showChapterComplete(){
+  var ch=CHAPTERS[currentChapterIdx];
+  var pct=chapterTotal>0?Math.round(chapterCorrect/chapterTotal*100):0;
+  var cardKey=ch.cardEarned;var card=cardKey?HIST_CARDS[cardKey]:null;
+  document.getElementById('complete-badge-icon').textContent=ch.icon;
+  document.getElementById('complete-chapter-name').textContent='Ch.'+ch.num+' \u2014 '+ch.title;
+  document.getElementById('complete-chapter-outcome').textContent=ch.outro||'Chapter complete.';
+  document.getElementById('complete-stats').innerHTML=[{icon:'\u2705',val:chapterCorrect+'/'+chapterTotal,lbl:'Correct'},{icon:'\u2B50',val:chapterScore.toLocaleString(),lbl:'Score'},{icon:'\uD83C\uDFAF',val:pct+'%',lbl:'Accuracy'}].map(function(s){return '<div style="background:var(--bg2);border:1px solid var(--border2);padding:12px;text-align:center"><div style="font-size:22px;margin-bottom:4px">'+s.icon+'</div><div style="font-family:var(--bebas);font-size:22px;color:var(--liberty)">'+s.val+'</div><div style="font-family:var(--dm);font-size:8px;color:var(--text3);margin-top:2px;letter-spacing:1px">'+s.lbl+'</div></div>';}).join('');
+  var contEl=document.getElementById('complete-continuity');
+  if(contEl)contEl.innerHTML='<div class="continuity-row"><div class="continuity-label">What Changed</div><div class="continuity-text">'+ch.changed+'</div></div><div class="continuity-row"><div class="continuity-label">What Continued</div><div class="continuity-text">'+ch.continued+'</div></div><div class="continuity-row" style="margin-bottom:0"><div class="continuity-label">New Question</div><div class="continuity-text">'+ch.newQuestion+'</div></div>';
+  document.getElementById('card-earned-display').innerHTML=card?'<div style="font-family:var(--bebas);font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:8px">HISTORIAN CARD UNLOCKED</div><div style="font-size:28px;margin-bottom:6px">'+card.icon+'</div><div style="font-family:var(--playfair);font-size:16px;color:var(--cream);font-style:italic;margin-bottom:2px">'+card.name+'</div><div style="font-family:var(--dm);font-size:9px;color:var(--liberty3);letter-spacing:1px;margin-bottom:8px">'+card.role+'</div><div style="font-family:var(--crimson);font-size:12px;color:var(--text2);line-height:1.5">'+card.desc+'</div>':'<div style="font-family:var(--crimson);font-size:14px;color:var(--text3);font-style:italic">No card this chapter.</div>';
+  document.getElementById('complete-standards').innerHTML='<span class="std-tag">'+ch.focus+'</span>';
+  document.getElementById('chapter-complete-overlay').classList.add('show');
+  if(G.chaptersCompleted.length>=CHAPTERS.length){
+    if(_unitCompleteTimer)clearTimeout(_unitCompleteTimer);
+    _unitCompleteTimer=setTimeout(function(){document.getElementById('chapter-complete-overlay').classList.remove('show');showUnitComplete();_unitCompleteTimer=null;},4000);
+  }
+}
+function closeChapterComplete(){
+  document.getElementById('chapter-complete-overlay').classList.remove('show');
+  if(_unitCompleteTimer){clearTimeout(_unitCompleteTimer);_unitCompleteTimer=null;}
+  renderHub();showScreen('hub-screen');
+}
+
+// ── BADGES ─────────────────────────────────────────────
+function checkBadges(){
+  if(!G)return;var bs=G.badgesEarned;
+  if(!bs.includes('first_voice')&&G.chaptersCompleted.length>=1)bs.push('first_voice');
+  if(!bs.includes('crossing_guard')&&G.chaptersCompleted.length>=2)bs.push('crossing_guard');
+  if(!bs.includes('liberty_under_fire')&&G.chaptersCompleted.length>=3)bs.push('liberty_under_fire');
+  if(!bs.includes('marcher')&&G.chaptersCompleted.length>=4)bs.push('marcher');
+  if(!bs.includes('freedom_debated')&&G.chaptersCompleted.length>=CHAPTERS.length)bs.push('freedom_debated');
+  if(!bs.includes('perfect_chapter')&&chapterTotal>0&&chapterCorrect>=chapterTotal)bs.push('perfect_chapter');
+  if(!bs.includes('historian')&&(G.cardsEarned||[]).length>=5)bs.push('historian');
+  if(!bs.includes('score_5000')&&G.score>=5000)bs.push('score_5000');
+  if(!bs.includes('score_10000')&&G.score>=10000)bs.push('score_10000');
+}
+
+// ── EOC ────────────────────────────────────────────────
+function openEOCIntro(){
+  var el=document.getElementById('chapter-intro-content');
+  if(el){el.innerHTML='<div style="text-align:center;margin-bottom:16px">'
+    +'<div style="font-size:48px;margin-bottom:8px">📋</div>'
+    +'<div class="era-badge" style="color:var(--gold);border-color:var(--gold2)">CUMULATIVE REVIEW</div>'
+    +'<div style="font-family:var(--bebas);font-size:11px;color:var(--text3);letter-spacing:4px;margin-bottom:6px">CHAPTER 6 OF 6</div>'
+    +'<div style="font-family:var(--playfair);font-size:22px;color:var(--cream);font-style:italic;margin-bottom:8px">EOC Practice: Freedom &amp; Rights</div>'
+    +'</div>'
+    +'<div style="font-family:var(--crimson);font-size:15px;color:var(--text);line-height:1.7;margin-bottom:20px">You have traced freedom and rights across five eras of American history. Now test your understanding across all of them. These 15 questions draw from every chapter — Reconstruction through the present day.</div>'
+    +'<div style="background:var(--bg2);border:1px solid var(--border2);padding:12px;margin-bottom:16px">'
+    +'<div style="font-family:var(--dm);font-size:9px;color:var(--text3);letter-spacing:2px;margin-bottom:4px">FOCUS</div>'
+    +'<div style="font-family:var(--dm);font-size:10px;color:var(--text2)">Continuity and change in American freedom and rights, 1865 to present \u00b7 SS.912.A.3.1, SS.912.A.5.4, SS.912.A.6.4, SS.912.A.7.5, SS.912.A.7.8, SS.912.C.1.4</div>'
+    +'</div>';}
+  var btn=document.getElementById('chapter-start-btn');
+  if(btn){btn.textContent='Begin the Review \u2192';btn.onclick=startEOC;}
+  showScreen('chapter-intro');
+}
+function startEOC(){
+  _eocQuestions=shuffle(EOC_POOL);_eocIdx=0;_eocCorrect=0;
+  var btn=document.getElementById('chapter-start-btn');
+  if(btn){btn.textContent='Enter This Moment \u2696\uFE0F';btn.onclick=startChapterPlay;}
+  renderEOCQuestion();showScreen('eoc-screen');setActiveNav(-1);
+}
+function renderEOCQuestion(){
+  var el=document.getElementById('eoc-content');if(!el)return;
+  if(_eocIdx>=_eocQuestions.length){finishEOC();return;}
+  var q=_eocQuestions[_eocIdx];_eocAnswered=false;
+  var pct=Math.round((_eocIdx/_eocQuestions.length)*100);
+  el.innerHTML='<div style="height:3px;background:rgba(255,255,255,0.04);margin-bottom:16px"><div style="height:100%;background:var(--gold2);transition:width 0.4s;width:'+pct+'%"></div></div>'
+    +'<div style="font-family:var(--dm);font-size:9px;color:var(--text3);letter-spacing:2px;text-align:right;margin-bottom:12px">QUESTION '+(_eocIdx+1)+' OF '+_eocQuestions.length+'</div>'
+    +'<div class="eoc-q"><div class="eoc-q-text">'+q.question+'</div>'
+    +q.choices.map(function(c,i){return '<button id="eq-'+i+'" onclick="selectEOC('+i+')" class="choice-btn" style="font-family:var(--crimson);font-size:15px;line-height:1.5"><span style="font-family:var(--dm);font-size:9px;color:var(--text3);margin-right:8px">'+(String.fromCharCode(65+i))+'.</span>'+c.text+'</button>';}).join('')
+    +'<div id="eoc-feedback" style="margin-top:10px"></div></div>';
+}
+function selectEOC(idx){
+  if(_eocAnswered)return;_eocAnswered=true;
+  var q=_eocQuestions[_eocIdx];var c=q.choices[idx];var correct=c.correct;
+  if(correct)_eocCorrect++;
+  q.choices.forEach(function(ch,i){
+    var b=document.getElementById('eq-'+i);if(!b)return;
+    if(i===idx)b.className='choice-btn '+(correct?'correct':'incorrect');
+    else if(ch.correct)b.className='choice-btn correct';
+    b.onclick=null;
+  });
+  var fb=document.getElementById('eoc-feedback');
+  if(fb){
+    fb.innerHTML='<div class="feedback-panel show '+(correct?'correct':'incorrect')+'" style="margin-top:8px">'
+      +'<div class="feedback-verdict '+(correct?'correct':'incorrect')+'">'+(correct?'CORRECT \u2014 Good Thinking':'INCORRECT \u2014 Here\'s Why')+'</div>'
+      +'<div class="feedback-text">'+c.feedback+'</div>'
+      +'<div class="feedback-standard"><span class="std-tag">'+q.std+'</span> Standards alignment</div>'
+      +'</div>'
+      +'<button onclick="nextEOCQuestion()" class="btn full" style="margin-top:10px"><span>'+(_eocIdx+1<_eocQuestions.length?'Next Question \u2192':'Finish Review \u2192')+'</span></button>';
+    fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+function nextEOCQuestion(){_eocIdx++;renderEOCQuestion();}
+function finishEOC(){
+  var score15=Math.round((_eocCorrect/_eocQuestions.length)*15);
+  var acc=Math.round((_eocCorrect/_eocQuestions.length)*100);
+  var lvl=calcEOCLevel(score15);
+  var pts=_eocCorrect*50;G.score=(G.score||0)+pts;
+  if(!G.eocCompleted||score15>G.eocBestScore15){G.eocBestScore15=score15;G.eocBestAccuracy=acc;}
+  G.eocCompleted=true;G.eocScore=score15;
+  checkBadges();saveGame();pushACResult();
+  // Show chapter-complete style overlay for EOC
+  document.getElementById('complete-badge-icon').textContent='📋';
+  document.getElementById('complete-chapter-name').textContent='EOC Practice Review';
+  document.getElementById('complete-chapter-outcome').textContent='You have completed the full Freedom & Rights theme campaign across all five eras.';
+  document.getElementById('complete-stats').innerHTML=[
+    {icon:'\u2705',val:_eocCorrect+'/'+_eocQuestions.length,lbl:'Correct'},
+    {icon:'\u2B50',val:pts.toLocaleString()+' pts',lbl:'Bonus'},
+    {icon:'\uD83C\uDFAF',val:acc+'%',lbl:'Accuracy'}
+  ].map(function(s){return '<div style="background:var(--bg2);border:1px solid var(--border2);padding:12px;text-align:center"><div style="font-size:22px;margin-bottom:4px">'+s.icon+'</div><div style="font-family:var(--bebas);font-size:20px;color:var(--liberty)">'+s.val+'</div><div style="font-family:var(--dm);font-size:8px;color:var(--text3);margin-top:2px;letter-spacing:1px">'+s.lbl+'</div></div>';}).join('');
+  var contEl=document.getElementById('complete-continuity');
+  if(contEl)contEl.innerHTML='<div class="continuity-row"><div class="continuity-label">Estimated EOC Practice Level</div><div class="continuity-text" style="font-family:var(--bebas);font-size:24px;color:'+lvl.color+'">'+lvl.label+'</div></div><div class="continuity-row" style="margin-bottom:0"><div class="continuity-label" style="font-size:8px;opacity:0.7">This is an estimated EOC practice level only. Not an official Florida EOC score.</div></div>';
+  document.getElementById('card-earned-display').innerHTML='<div style="font-family:var(--crimson);font-size:14px;color:var(--text2);font-style:italic">'+lvl.desc+'</div>';
+  document.getElementById('complete-standards').innerHTML='<span class="std-tag">SS.912.A.3.1</span><span class="std-tag">SS.912.A.5.4</span><span class="std-tag">SS.912.A.6.4</span><span class="std-tag">SS.912.A.7.5</span><span class="std-tag">SS.912.A.7.8</span><span class="std-tag">SS.912.C.1.4</span>';
+  document.getElementById('chapter-complete-overlay').classList.add('show');
+  setTimeout(function(){
+    document.getElementById('chapter-complete-overlay').classList.remove('show');
+    showUnitComplete();
+  },4500);
+}
+
+// ── PRINT CERTIFICATE ─────────────────────────────────
+function printCertificate(){
+  if(!G)return;
+  var acc=G.totalAnswers>0?Math.round((G.correctAnswers/G.totalAnswers)*100):0;
+  var eocLvl=calcEOCLevel(G.eocBestScore15||0);
+  var pd=G.period&&G.period!=='0'?' \u00b7 Period '+G.period:'';
+  var w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Certificate \u2014 '+G.name+'</title>'
+    +'<style>body{font-family:Georgia,serif;background:#f0eadc;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;margin:0}'
+    +'.cert{width:680px;background:#f5ead8;border:3px solid #2d5a8a;padding:40px 50px;text-align:center;box-shadow:0 0 0 8px #f5ead8,0 0 0 10px #2d5a8a,0 0 0 14px #f5ead8,0 0 0 16px #4a7ab0}'
+    +'h1{font-size:24px;color:#0e1520;margin:8px 0}'
+    +'.divider{height:1px;background:linear-gradient(90deg,transparent,#2d5a8a,transparent);margin:14px auto;width:80%}'
+    +'.badge{display:inline-block;width:70px;height:70px;border-radius:50%;border:2px solid #2d5a8a;font-size:32px;line-height:70px;margin:10px auto}'
+    +'.stats{display:flex;justify-content:center;gap:24px;margin:16px 0;padding:12px;background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.1)}'
+    +'.stat-val{font-size:20px;font-weight:700;color:#2d5a8a}.stat-lbl{font-size:8px;letter-spacing:2px;color:#2d5a8a;margin-top:2px}'
+    +'.level{font-size:40px;font-weight:700;color:'+eocLvl.color.replace('var(--liberty3)','#7ec8f0').replace('var(--green2)','#38a050').replace('var(--civic2)','#d4a017').replace('var(--parchment2)','#c9b67a').replace('var(--red2)','#e04040')+'}'
+    +'.sigs{display:flex;justify-content:space-around;margin-top:20px;padding-top:14px;border-top:1px solid rgba(0,0,0,.2)}'
+    +'.sig-line{width:140px;height:1px;background:#2d5a8a;margin:0 auto 4px}.sig-name{font-size:11px;color:#0e1520;font-weight:700}.sig-title{font-size:8px;color:#2d5a8a;letter-spacing:1px}'
+    +'.nbtn{text-align:center;margin-top:18px}button{padding:10px 24px;background:#2d5a8a;border:none;color:#f5ead8;font-size:13px;cursor:pointer;margin:0 6px}'
+    +'@media print{.nbtn{display:none!important}}</style></head><body>'
+    +'<div class="cert">'
+    +'<div style="font-size:10px;letter-spacing:4px;color:#2d5a8a;margin-bottom:8px">FREEDOM &amp; RIGHTS THEME CAMPAIGN \u00b7 AMERICAN CHRONICLES</div>'
+    +'<div class="badge">🗽</div>'
+    +'<h1>Certificate of Completion</h1>'
+    +'<div class="divider"></div>'
+    +'<div style="font-size:13px;color:#3a3020;margin:8px 0">This certifies that</div>'
+    +'<div style="font-size:28px;font-style:italic;color:#2d5a8a;margin:10px 0;border-bottom:2px solid #2d5a8a;padding-bottom:8px;display:inline-block">'+G.name+'</div>'
+    +'<div style="font-size:13px;color:#3a3020;margin:8px 0;line-height:1.7">has successfully completed<br><strong style="font-size:18px;color:#2d5a8a">Promise of Liberty</strong><br><span style="font-size:11px;color:#2d5a8a">Freedom &amp; Rights Across Time \u00b7 1865 to Present</span></div>'
+    +(G.eocCompleted?'<div style="margin:16px 0;padding:14px;background:rgba(45,90,138,.06);border:2px solid #2d5a8a;display:inline-block;min-width:180px"><div style="font-size:9px;letter-spacing:3px;color:#2d5a8a;margin-bottom:4px">ESTIMATED EOC PRACTICE LEVEL</div><div class="level">'+eocLvl.label+'</div><div style="font-size:9px;color:#3a3020;margin-top:4px">'+eocLvl.desc+'</div></div>':'')
+    +'<div class="stats">'
+    +'<div style="text-align:center"><div class="stat-val">'+G.chaptersCompleted.length+'/'+CHAPTERS.length+'</div><div class="stat-lbl">CHAPTERS</div></div>'
+    +'<div style="text-align:center"><div class="stat-val">'+(G.score||0).toLocaleString()+'</div><div class="stat-lbl">TOTAL SCORE</div></div>'
+    +'<div style="text-align:center"><div class="stat-val">'+acc+'%</div><div class="stat-lbl">ACCURACY</div></div>'
+    +'<div style="text-align:center"><div class="stat-val">'+(G.cardsEarned||[]).length+'</div><div class="stat-lbl">CARDS</div></div>'
+    +'</div>'
+    +'<div class="divider"></div>'
+    +'<div class="sigs">'
+    +'<div><div class="sig-line"></div><div class="sig-name">'+G.name+'</div><div class="sig-title">STUDENT'+pd+'</div></div>'
+    +'<div><div class="sig-line"></div><div class="sig-name">Joshua Olson</div><div class="sig-title">U.S. HISTORY TEACHER</div></div>'
+    +'<div><div class="sig-line"></div><div class="sig-name">'+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'</div><div class="sig-title">DATE COMPLETED</div></div>'
+    +'</div></div>'
+    +'<div class="nbtn"><button onclick="window.print()">Print / Save as PDF</button><button onclick="window.close()" style="background:#3a3020">Close</button></div>'
+    +'</body></html>');
+  w.document.close();
+}
+
+// ── UNIT COMPLETE ──────────────────────────────────────
+function showUnitComplete(){
+  notifyShellComplete();
+  document.getElementById('completion-name').textContent=G.name;
+  document.getElementById('completion-rank').textContent=getRank(G.score||0);
+  var acc=G.totalAnswers>0?Math.round((G.correctAnswers/G.totalAnswers)*100):0;
+  document.getElementById('completion-stats').innerHTML=[
+    {icon:'\u2705',val:G.chaptersCompleted.length+'/'+CHAPTERS.length,lbl:'Chapters'},
+    {icon:'\uD83D\uDCA5',val:(G.score||0).toLocaleString(),lbl:'Score'},
+    {icon:'\uD83C\uDFAF',val:acc+'%',lbl:'Accuracy'}
+  ].map(function(s){return '<div style="background:var(--bg2);border:1px solid var(--border2);padding:12px;text-align:center"><div style="font-size:22px;margin-bottom:4px">'+s.icon+'</div><div style="font-family:var(--bebas);font-size:22px;color:var(--liberty)">'+s.val+'</div><div style="font-family:var(--dm);font-size:8px;color:var(--text3);margin-top:2px;letter-spacing:1px">'+s.lbl+'</div></div>';}).join('');
+  document.getElementById('completion-badges').innerHTML=(G.badgesEarned||[]).map(function(bid){var b=BADGES.find(function(x){return x.id===bid;});return b?'<div style="display:flex;align-items:center;gap:6px;font-family:var(--dm);font-size:10px;color:var(--liberty);background:rgba(74,159,212,0.08);border:1px solid var(--liberty2);padding:5px 10px">'+b.icon+' '+b.label+'</div>':'';}).join('');
+  if(G.eocCompleted){
+    var lvl=calcEOCLevel(G.eocBestScore15||0);
+    document.getElementById('completion-eoc-rating').innerHTML='<div style="background:var(--bg2);border:1px solid var(--liberty2);padding:14px;text-align:left"><div style="font-family:var(--bebas);font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:4px">ESTIMATED EOC PRACTICE LEVEL</div><div style="font-family:var(--bebas);font-size:28px;color:'+lvl.color+'">'+lvl.label+'</div><div style="font-family:var(--dm);font-size:8px;color:var(--text3);margin-top:4px;font-style:italic">Not an official Florida EOC score.</div></div>';
+  }
+  document.getElementById('completion-message').textContent='You have traced the arc of American freedom across 150 years of history. The question was never settled — it was argued, fought over, and extended, generation by generation.';
+  var sb=document.getElementById('completion-shell-btn');if(sb&&getShellProfile())sb.style.display='block';
+  document.getElementById('completion-overlay').style.display='block';
+}
+
+// ── LEADERBOARD ────────────────────────────────────────
+function openLeaderboard(){
+  document.getElementById('leaderboard-overlay').classList.add('show');
+  loadLeaderboard();
+}
+function setLBPeriod(p){
+  _lbPeriod=p;
+  document.getElementById('lb-tab-all').classList.toggle('active',p==='all');
+  document.getElementById('lb-tab-class').classList.toggle('active',p==='class');
+  renderLeaderboard(_lbAllData);
+}
+async function loadLeaderboard(){
+  document.getElementById('lb-content').innerHTML='<div style="font-family:var(--dm);font-size:11px;color:var(--text3)">Loading\u2026</div>';
+  try{var r=await fetch(AC_SUPA_URL+'/rest/v1/ac_results?unit_id=eq.'+SHELL_UNIT_ID+'&order=best_score.desc&limit=200',{headers:AC_HEADERS});_lbAllData=await r.json()||[];renderLeaderboard(_lbAllData);}
+  catch(e){document.getElementById('lb-content').innerHTML='<div style="font-family:var(--dm);font-size:11px;color:var(--text3)">Could not load leaderboard.</div>';}
+}
+function renderLeaderboard(data){
+  var filtered=data;
+  if(_lbPeriod==='class'&&G&&G.period&&G.period!=='0')filtered=data.filter(function(s){return s.period===G.period;});
+  if(!filtered.length){document.getElementById('lb-content').innerHTML='<div style="font-family:var(--dm);font-size:11px;color:var(--text3);padding:20px 0;text-align:center">No scores yet.</div>';return;}
+  var rows=filtered.slice(0,50).map(function(s,i){
+    var isMe=G&&s.name===G.name&&s.period===G.period;
+    var delBtn=_lbDeleteUnlocked?'<td><button class="lb-del-btn" data-name="'+s.name+'" data-period="'+s.period+'" style="font-family:var(--bebas);font-size:10px;background:transparent;border:1px solid var(--red2);color:var(--red2);padding:3px 8px;cursor:pointer">\u2715</button></td>':'';
+    return '<tr class="'+(isMe?'lb-you':'')+'"><td style="font-family:var(--dm);font-size:10px;color:var(--text3)">'+(i+1)+'</td><td><div class="lb-name">'+(s.name||'\u2014')+(isMe?' \u2B05':'')+'</div></td><td style="font-family:var(--dm);font-size:10px;color:var(--text2)">'+(s.period&&s.period!=='0'?'Pd '+s.period:'\u2014')+'</td><td class="lb-score">'+(s.best_score||0).toLocaleString()+'</td><td style="font-family:var(--dm);font-size:10px;color:var(--gold)">'+(s.best_accuracy!=null?s.best_accuracy+'%':'\u2014')+'</td>'+delBtn+'</tr>';
+  }).join('');
+  var hdr='<table class="lb-table"><thead><tr><th>#</th><th>STUDENT</th><th>PD</th><th>SCORE</th><th>ACCURACY</th>'+(_lbDeleteUnlocked?'<th></th>':'')+'</tr></thead><tbody>'+rows+'</tbody></table>';
+  document.getElementById('lb-content').innerHTML=hdr;
+  if(_lbDeleteUnlocked){
+    document.querySelectorAll('.lb-del-btn').forEach(function(btn){
+      btn.addEventListener('click',function(){lbDeleteEntry(btn.dataset.name,btn.dataset.period);});
+    });
+  }
+}
+
+// ── PROFILE ────────────────────────────────────────────
+function openProfile(){
+  var ov=document.getElementById('profile-overlay');ov.classList.add('show');
+  var acc=G&&G.totalAnswers>0?Math.round((G.correctAnswers/G.totalAnswers)*100):0;
+  var el=document.getElementById('profile-content');
+  if(el)el.innerHTML='<div style="text-align:center;margin-bottom:16px"><div style="width:80px;height:80px;margin:0 auto 12px">'+getPortraitSVG(G?G.avatarId:'scholar_f',80)+'</div><div style="font-family:var(--playfair);font-size:18px;color:var(--cream);font-style:italic">'+(G?G.name:'—')+'</div><div style="font-family:var(--dm);font-size:10px;color:var(--liberty3);margin-top:4px">'+getRank(G?G.score||0:0)+'</div></div>'
+    +'<div class="profile-stat-grid"><div class="profile-stat"><div class="profile-stat-val">'+(G?(G.score||0).toLocaleString():'0')+'</div><div class="profile-stat-lbl">TOTAL SCORE</div></div><div class="profile-stat"><div class="profile-stat-val">'+(G?G.chaptersCompleted.length:0)+'</div><div class="profile-stat-lbl">CHAPTERS DONE</div></div><div class="profile-stat"><div class="profile-stat-val">'+acc+'%</div><div class="profile-stat-lbl">ACCURACY</div></div><div class="profile-stat"><div class="profile-stat-val">'+(G?(G.cardsEarned||[]).length:0)+'</div><div class="profile-stat-lbl">CARDS</div></div></div>'
+    +'<div class="section-head" style="font-size:14px">Change Character</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">'+AVATAR_LIST.map(function(a){var sel=G&&G.avatarId===a.id;return '<div onclick="setAvatar(\''+a.id+'\')" style="background:var(--bg2);border:1.5px solid '+(sel?'var(--liberty)':'var(--border2)')+';padding:8px;text-align:center;cursor:pointer;transition:border-color 0.15s">'+getPortraitSVG(a.id,40)+'<div style="font-family:var(--dm);font-size:7px;color:'+(sel?'var(--liberty)':'var(--text3)')+';margin-top:4px;letter-spacing:1px">'+a.label+'</div></div>';}).join('')+'</div>'
+    +'<button class="btn full red" onclick="if(confirm(\'Reset all progress? This cannot be undone.\')){clearSave();location.reload();}" style="font-size:11px;margin-top:8px"><span>Reset Progress</span></button>';
+}
+function setAvatar(id){if(G){G.avatarId=id;saveGame();updateHUD();openProfile();}}
+
+// ── CARD COLLECTION ────────────────────────────────────
+function openCardCollection(){
+  document.getElementById('cardcoll-overlay').classList.add('show');
+  var el=document.getElementById('cardcoll-grid');
+  if(el)el.innerHTML=Object.entries(HIST_CARDS).map(function(entry){var k=entry[0],c=entry[1];var owned=G&&G.cardsEarned.includes(k);return '<div class="hist-card'+(owned?'':' locked-card')+'"><div class="hist-card-icon">'+c.icon+'</div><div class="hist-card-name">'+c.name+'</div><div class="hist-card-role">'+c.role+'</div><div class="hist-card-desc">'+(owned?c.desc:'Complete chapters to unlock.')+'</div>'+(owned?'':'<div class="hist-card-unlock">Chapter '+(CHAPTERS.findIndex(function(ch){return ch.cardEarned===k;})+1)+'</div>')+'</div>';}).join('');
+}
+
+// ── TEACHER DASHBOARD ──────────────────────────────────
+function openTeacherDashboard(){
+  document.getElementById('teacher-overlay').classList.add('show');
+  loadTeacherData();
+}
+async function loadTeacherData(){
+  var el=document.getElementById('teacher-content');
+  if(el)el.innerHTML='<div style="font-family:var(--dm);font-size:11px;color:var(--text3)">Loading\u2026</div>';
+  try{
+    var r=await fetch(AC_SUPA_URL+'/rest/v1/ac_results?unit_id=eq.'+SHELL_UNIT_ID+'&order=best_accuracy.desc',{headers:AC_HEADERS});
+    var data=await r.json()||[];
+    var avg=data.length?Math.round(data.reduce(function(a,s){return a+(s.best_accuracy||0);},0)/data.length):0;
+    var html='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">'
+      +'<div style="background:var(--bg2);border:1px solid var(--border);padding:12px;text-align:center"><div style="font-family:var(--bebas);font-size:26px;color:var(--liberty)">'+data.length+'</div><div style="font-family:var(--dm);font-size:9px;color:var(--text3);letter-spacing:1px">STUDENTS</div></div>'
+      +'<div style="background:var(--bg2);border:1px solid var(--border);padding:12px;text-align:center"><div style="font-family:var(--bebas);font-size:26px;color:var(--liberty)">'+avg+'%</div><div style="font-family:var(--dm);font-size:9px;color:var(--text3);letter-spacing:1px">AVG ACCURACY</div></div></div>';
+    html+='<table class="lb-table"><thead><tr><th>#</th><th>STUDENT</th><th>PD</th><th>SCORE</th><th>ACC</th><th>CARDS</th></tr></thead><tbody>'+data.map(function(s,i){return '<tr><td style="font-family:var(--dm);font-size:10px;color:var(--text3)">'+(i+1)+'</td><td><div class="lb-name">'+(s.name||'\u2014')+'</div></td><td style="font-family:var(--dm);font-size:10px;color:var(--text2)">'+(s.period&&s.period!=='0'?'Pd '+s.period:'\u2014')+'</td><td class="lb-score">'+(s.best_score||0).toLocaleString()+'</td><td style="font-family:var(--dm);font-size:10px;color:var(--gold)">'+(s.best_accuracy||0)+'%</td><td style="font-family:var(--dm);font-size:10px;color:var(--text2)">'+(s.cards||0)+'</td></tr>';}).join('')+'</tbody></table>';
+    if(el)el.innerHTML=html;
+  }catch(e){if(el)el.innerHTML='<div style="font-family:var(--dm);font-size:11px;color:var(--text3)">Could not load data.</div>';}
+}
+
+// ── SUPABASE SYNC ──────────────────────────────────────
+async function pushACResult(){
+  if(!G||!G.name||G.teacher==='guest')return;
+  var acc=G.totalAnswers>0?Math.round((G.correctAnswers/G.totalAnswers)*100):0;
+  var trophy=acc>=100?'historian':acc>=90?'gold':acc>=80?'silver':acc>=70?'bronze':acc>=60?'completed':'tryagain';
+  try{
+    var prev=null;
+    try{var pr=await fetch(AC_SUPA_URL+'/rest/v1/ac_results?name=eq.'+encodeURIComponent(G.name)+'&period=eq.'+encodeURIComponent(G.period||'')+'&unit_id=eq.'+SHELL_UNIT_ID,{headers:AC_HEADERS});var pd=await pr.json();if(pd&&pd.length)prev=pd[0];}catch(e){}
+    var bestScore=prev?Math.max(prev.best_score||0,G.score||0):G.score||0;
+    var bestAcc=prev?Math.max(prev.best_accuracy||0,acc):acc;
+    var bestTrophy=bestAcc>=100?'historian':bestAcc>=90?'gold':bestAcc>=80?'silver':bestAcc>=70?'bronze':bestAcc>=60?'completed':'tryagain';
+    var attempts=(prev?prev.attempts||1:0)+1;
+    await fetch(AC_SUPA_URL+'/rest/v1/ac_results?on_conflict=name,period,unit_id',{method:'POST',headers:Object.assign({},AC_HEADERS,{'Prefer':'resolution=merge-duplicates'}),body:JSON.stringify({name:G.name,period:G.period||'',unit_id:SHELL_UNIT_ID,best_score:bestScore,best_accuracy:bestAcc,trophy:bestTrophy,attempts:attempts,cards:(G.cardsEarned||[]).length,updated_at:new Date().toISOString()})});
+  }catch(e){}
+}
+
+// ── ANTI-COPY ──────────────────────────────────────────
+(function(){
+  function isInput(t){return t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable);}
+  document.addEventListener('contextmenu',function(e){if(!isInput(e.target))e.preventDefault();});
+  document.addEventListener('copy',function(e){if(!isInput(e.target))e.preventDefault();});
+  document.addEventListener('cut',function(e){if(!isInput(e.target))e.preventDefault();});
+  document.addEventListener('keydown',function(e){if(isInput(e.target))return;var ctrl=e.ctrlKey||e.metaKey;if(ctrl&&['c','x','a','C','X','A'].indexOf(e.key)!==-1)e.preventDefault();});
+})();
+
+// ── BOOT ───────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',function(){
+  showLoginGate();
+});
+</script>
+</body>
+</html>
