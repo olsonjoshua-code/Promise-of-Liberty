@@ -985,7 +985,9 @@ function renderHub(){
       var done=G.chaptersCompleted.includes(ch.id);
       var locked=idx>0&&!G.chaptersCompleted.includes(CHAPTERS[idx-1].id);
       var st=done?'completed':locked?'locked':'available';
-      return '<div class="chapter-card '+st+'" onclick="'+(locked?'':'openChapterIntro('+idx+')')+'"><div class="chapter-card-header"><div class="chapter-icon">'+ch.icon+'</div><div class="chapter-info"><div class="chapter-number">Chapter '+ch.num+' \u00b7 '+ch.era+'</div><div class="chapter-name">'+ch.title+'</div><div class="chapter-era">'+ch.period+'</div></div><div class="chapter-status '+st+'">'+(done?'\u2713 Complete':locked?'Locked':'Available')+'</div></div><div class="chapter-progress-bar"><div class="chapter-progress-fill" style="width:'+(done?100:0)+'%"></div></div></div>';
+      var cardMissed=done&&ch.cardEarned&&!G.cardsEarned.includes(ch.cardEarned);
+      var statusLabel=done?(cardMissed?'\u2713 Complete \u00b7 \uD83C\uDFC6 Replay for card':'\u2713 Complete'):locked?'Locked':'Available';
+      return '<div class="chapter-card '+st+'" onclick="'+(locked?'':'openChapterIntro('+idx+')')+'"><div class="chapter-card-header"><div class="chapter-icon">'+ch.icon+'</div><div class="chapter-info"><div class="chapter-number">Chapter '+ch.num+' \u00b7 '+ch.era+'</div><div class="chapter-name">'+ch.title+'</div><div class="chapter-era">'+ch.period+'</div></div><div class="chapter-status '+st+'" style="'+(cardMissed?'border-color:var(--brass2);color:var(--brass2);':'')+'">'+(statusLabel)+'</div></div><div class="chapter-progress-bar"><div class="chapter-progress-fill" style="width:'+(done?100:0)+'%"></div></div></div>';
     });
     // EOC as Chapter 6
     var allChDone=G.chaptersCompleted.length>=CHAPTERS.length;
@@ -1072,20 +1074,28 @@ function finishChapter(){
   var ch=CHAPTERS[currentChapterIdx];
   if(!G.chaptersCompleted.includes(ch.id))G.chaptersCompleted.push(ch.id);
   var cardKey=ch.cardEarned;
-  if(cardKey&&!G.cardsEarned.includes(cardKey))G.cardsEarned.push(cardKey);
+  var cardEarned=(chapterTotal>0)&&(chapterCorrect>=chapterTotal-1);
+  if(cardKey&&cardEarned&&!G.cardsEarned.includes(cardKey))G.cardsEarned.push(cardKey);
   checkBadges();saveGame();pushACResult();showChapterComplete();
 }
 function showChapterComplete(){
   var ch=CHAPTERS[currentChapterIdx];
   var pct=chapterTotal>0?Math.round(chapterCorrect/chapterTotal*100):0;
   var cardKey=ch.cardEarned;var card=cardKey?HIST_CARDS[cardKey]:null;
+  var cardWasEarned=cardKey&&G.cardsEarned.includes(cardKey);
   document.getElementById('complete-badge-icon').textContent=ch.icon;
   document.getElementById('complete-chapter-name').textContent='Ch.'+ch.num+' \u2014 '+ch.title;
   document.getElementById('complete-chapter-outcome').textContent=ch.outro||'Chapter complete.';
   document.getElementById('complete-stats').innerHTML=[{icon:'\u2705',val:chapterCorrect+'/'+chapterTotal,lbl:'Correct'},{icon:'\u2B50',val:chapterScore.toLocaleString(),lbl:'Score'},{icon:'\uD83C\uDFAF',val:pct+'%',lbl:'Accuracy'}].map(function(s){return '<div style="background:var(--bg2);border:1px solid var(--border2);padding:12px;text-align:center"><div style="font-size:22px;margin-bottom:4px">'+s.icon+'</div><div style="font-family:var(--bebas);font-size:22px;color:var(--liberty)">'+s.val+'</div><div style="font-family:var(--dm);font-size:8px;color:var(--text3);margin-top:2px;letter-spacing:1px">'+s.lbl+'</div></div>';}).join('');
   var contEl=document.getElementById('complete-continuity');
   if(contEl)contEl.innerHTML='<div class="continuity-row"><div class="continuity-label">What Changed</div><div class="continuity-text">'+ch.changed+'</div></div><div class="continuity-row"><div class="continuity-label">What Continued</div><div class="continuity-text">'+ch.continued+'</div></div><div class="continuity-row" style="margin-bottom:0"><div class="continuity-label">New Question</div><div class="continuity-text">'+ch.newQuestion+'</div></div>';
-  document.getElementById('card-earned-display').innerHTML=card?'<div style="font-family:var(--bebas);font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:8px">HISTORIAN CARD UNLOCKED</div><div style="font-size:28px;margin-bottom:6px">'+card.icon+'</div><div style="font-family:var(--playfair);font-size:16px;color:var(--cream);font-style:italic;margin-bottom:2px">'+card.name+'</div><div style="font-family:var(--dm);font-size:9px;color:var(--liberty3);letter-spacing:1px;margin-bottom:8px">'+card.role+'</div><div style="font-family:var(--crimson);font-size:12px;color:var(--text2);line-height:1.5">'+card.desc+'</div>':'<div style="font-family:var(--crimson);font-size:14px;color:var(--text3);font-style:italic">No card this chapter.</div>';
+  if(card&&cardWasEarned){
+    document.getElementById('card-earned-display').innerHTML='<div style="font-family:var(--bebas);font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:8px">HISTORIAN CARD UNLOCKED</div><div style="font-size:28px;margin-bottom:6px">'+card.icon+'</div><div style="font-family:var(--playfair);font-size:16px;color:var(--cream);font-style:italic;margin-bottom:2px">'+card.name+'</div><div style="font-family:var(--dm);font-size:9px;color:var(--liberty3);letter-spacing:1px;margin-bottom:8px">'+card.role+'</div><div style="font-family:var(--crimson);font-size:12px;color:var(--text2);line-height:1.5">'+card.desc+'</div>';
+  } else if(card&&!cardWasEarned){
+    document.getElementById('card-earned-display').innerHTML='<div style="font-size:28px;margin-bottom:6px;filter:grayscale(1);opacity:0.4">'+card.icon+'</div><div style="font-family:var(--bebas);font-size:11px;color:var(--red2);letter-spacing:2px;margin-bottom:6px">CARD NOT EARNED</div><div style="font-family:var(--crimson);font-size:13px;color:var(--text3);font-style:italic">Answer 2 or 3 questions correctly to unlock <strong style="color:var(--text2)">'+card.name+'</strong>. Replay this chapter to try again.</div>';
+  } else {
+    document.getElementById('card-earned-display').innerHTML='<div style="font-family:var(--crimson);font-size:14px;color:var(--text3);font-style:italic">No card this chapter.</div>';
+  }
   document.getElementById('complete-standards').innerHTML='<span class="std-tag">'+ch.focus+'</span>';
   document.getElementById('chapter-complete-overlay').classList.add('show');
   if(G.chaptersCompleted.length>=CHAPTERS.length){
@@ -1316,7 +1326,7 @@ function setAvatar(id){if(G){G.avatarId=id;saveGame();updateHUD();openProfile();
 function openCardCollection(){
   document.getElementById('cardcoll-overlay').classList.add('show');
   var el=document.getElementById('cardcoll-grid');
-  if(el)el.innerHTML=Object.entries(HIST_CARDS).map(function(entry){var k=entry[0],c=entry[1];var owned=G&&G.cardsEarned.includes(k);return '<div class="hist-card'+(owned?'':' locked-card')+'"><div class="hist-card-icon">'+c.icon+'</div><div class="hist-card-name">'+c.name+'</div><div class="hist-card-role">'+c.role+'</div><div class="hist-card-desc">'+(owned?c.desc:'Complete chapters to unlock.')+'</div>'+(owned?'':'<div class="hist-card-unlock">Chapter '+(CHAPTERS.findIndex(function(ch){return ch.cardEarned===k;})+1)+'</div>')+'</div>';}).join('');
+  if(el)el.innerHTML=Object.entries(HIST_CARDS).map(function(entry){var k=entry[0],c=entry[1];var owned=G&&G.cardsEarned.includes(k);var chIdx=CHAPTERS.findIndex(function(ch){return ch.cardEarned===k;});return '<div class="hist-card'+(owned?'':' locked-card')+'"><div class="hist-card-icon">'+c.icon+'</div><div class="hist-card-name">'+c.name+'</div><div class="hist-card-role">'+c.role+'</div><div class="hist-card-desc">'+(owned?c.desc:'Complete the chapter with 0 or 1 wrong answers to unlock.')+'</div>'+(owned?'':'<div class="hist-card-unlock">Chapter '+(chIdx+1)+(chIdx>=0?' \u00b7 '+CHAPTERS[chIdx].title:'')+'</div>')+'</div>';}).join('');
 }
 
 // ── TEACHER DASHBOARD ──────────────────────────────────
